@@ -29,7 +29,6 @@ erDiagram
     USERS ||--|{ LOCATIONS : has
     DEVICES ||--o{ PARTS : has
     PARTS ||--o{ SOFTWARE : supports
-    PARTS ||--o{ UPGRADES : modified_by
     PARTS ||--|{ CATEGORIES : has
     LOCATIONS ||--o{ DEVICES : stores
 ``````
