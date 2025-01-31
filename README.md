@@ -25,10 +25,13 @@ With an increasing number of devices such as personal computers, peripherals, an
 ```mermaid
 %%{init: {'theme':'default'}}%%
 erDiagram
-    USERS ||--o{ DEVICES : owns
-    USERS ||--|{ LOCATIONS : has
+    CATEGORIES ||--|{ PARTS : has
     DEVICES ||--o{ PARTS : has
-    PARTS ||--o{ SOFTWARE : supports
-    PARTS ||--|{ CATEGORIES : has
+    DEVICES ||--o{ REVIEWS : receives
     LOCATIONS ||--o{ DEVICES : stores
+    PARTS ||--o{ REVIEWS : receives
+    PARTS ||--o{ SOFTWARE : supports
+    USERS ||--|{ LOCATIONS : has
+    USERS ||--o{ DEVICES : owns
+    USERS ||--o{ REVIEWS : writes
 ``````
