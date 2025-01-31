@@ -23,7 +23,7 @@ With an increasing number of devices such as personal computers, peripherals, an
 - Automatic hardware detection or monitoring
 ## Domain Model Diagram
 ```mermaid
-%%{init: {'theme':'default'}}%%
+%%{init: {'theme':'forest'}}%%
 erDiagram
     CATEGORIES ||--|{ PARTS : has
     DEVICES ||--o{ PARTS : has
