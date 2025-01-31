@@ -26,9 +26,10 @@ With an increasing number of devices such as personal computers, peripherals, an
 %%{init: {'theme':'default'}}%%
 erDiagram
     USERS ||--o{ DEVICES : owns
-    CATEGORIES |{--o{ DEVICES : contains
-    OS_COMPATIBILITY |{--o{ DEVICES : supports
-    OS_COMPATIBILITY_LEVELS ||--o{ OS_COMPATIBILITY
-    OS ||--O{ OS_COMPATIBILITY
-    SPECIFICATIONS |{--|{ DEVICES : contains
+    USERS ||--|{ LOCATIONS : has
+    DEVICES ||--o{ PARTS : has
+    DEVICES ||--o{ SOFTWARE : supports
+    PARTS ||--o{ UPGRADES : modified_by
+    PARTS ||--|{ CATEGORIES : has
+    LOCATIONS ||--o{ DEVICES : stores
 ``````
