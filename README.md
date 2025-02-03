@@ -1,7 +1,7 @@
 # Transistor Tracker
-A document to track personal hardware devices and their specifications, compatibility, and other relevant details.
+An application to track personal hardware devices and their specifications, compatibility, and other relevant details.
 ## Problem Definition
-With an increasing number of devices such as personal computers, peripherals, and gaming consoles, it becomes difficult to track their specifications, operating system compatibility, and software restrictions. This document serves as a structured way to record and manage hardware details for easy reference.
+With an increasing number of devices such as personal computers, peripherals, and gaming consoles, it becomes difficult to track their specifications, operating system compatibility, and software restrictions. This tracking application serves as a structured way to record and manage hardware details for easy reference.
 ## Priorities
 ### Must Have
 - A user must be able to login and logout
