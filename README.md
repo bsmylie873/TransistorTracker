@@ -25,7 +25,6 @@ With an increasing number of devices such as personal computers, peripherals, an
 ```mermaid
 %%{init: {'theme':'forest'}}%%
 erDiagram
-    CATEGORIES ||--|{ PARTS : has
     DEVICES ||--o{ PARTS : has
     DEVICES ||--o{ REVIEWS : receives
     LOCATIONS ||--o{ DEVICES : stores
@@ -34,4 +33,22 @@ erDiagram
     USERS ||--|{ LOCATIONS : has
     USERS ||--o{ DEVICES : owns
     USERS ||--o{ REVIEWS : writes
-``````
+```
+
+### USERS
+Users represent the individuals using the application. They have attributes such as name, email, and user type, and can own multiple devices, write multiple reviews, and have multiple locations.
+
+### LOCATIONS
+Locations represent physical places where devices are stored. They include attributes like name and address, and can store multiple devices and belong to a user.
+
+### DEVICES
+Devices are hardware items tracked by the application. They have attributes such as name, model, wattage, colour, wireless capability, and release date, and can have multiple parts, receive multiple reviews, be stored in a location, be owned by a user, and have a condition.
+
+### PARTS
+Parts are individual components of a device. They include attributes like name, description, wattage, colour, and release date, and can belong to a device, receive multiple reviews, support multiple software, be categorized under a category, and have a condition.
+
+### SOFTWARE
+Software represents applications that can be supported by parts. It includes attributes such as name, version, and release date, and is supported by multiple parts.
+
+### REVIEWS
+Reviews are written by users for devices and parts. They include review text, rating, and timestamps, and are associated with a user, a device, and a part.
