@@ -4,9 +4,8 @@ on:
   pull_request:
     branches: [ develop, master ]
     paths:
-      - "migrations/**"
-      - "database/**"
-    workflow_dispatch:
+      - "database/migrations/**"
+  workflow_dispatch:
 
 jobs:
   verify:
