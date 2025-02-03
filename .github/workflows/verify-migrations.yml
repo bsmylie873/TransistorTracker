@@ -4,11 +4,11 @@ on:
   push:
     branches: [ master ]
     paths:
-      - "database/migrations/**"
+      - "database/**"
   pull_request:
     branches: [ master ]
     paths:
-      - "database/migrations/**"
+      - "database/**"
   workflow_dispatch:
 
 jobs:
