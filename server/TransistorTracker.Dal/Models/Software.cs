@@ -28,6 +28,10 @@ public partial class Software
     [Column("release_date")]
     public DateOnly? ReleaseDate { get; set; }
 
-    [Column("created_date", TypeName = "timestamp without time zone")]
-    public DateTime? CreatedDate { get; set; }
+    [Column("category_id")]
+    public int? CategoryId { get; set; }
+
+    [ForeignKey("CategoryId")]
+    [InverseProperty("Softwares")]
+    public virtual SoftwareCategory? Category { get; set; }
 }

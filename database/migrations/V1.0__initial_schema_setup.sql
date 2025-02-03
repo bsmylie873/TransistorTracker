@@ -9,7 +9,7 @@ CREATE TABLE USERS (
     email VARCHAR(255) NOT NULL UNIQUE,
     avatar VARCHAR(255),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP,
     user_type_id INT,
     FOREIGN KEY (user_type_id) REFERENCES USER_TYPES(id)
 );
@@ -25,7 +25,7 @@ CREATE TABLE LOCATIONS (
     postal_code VARCHAR(20),
     country VARCHAR(255),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    modified_date TIMESTAMP
 );
 
 CREATE TABLE HARDWARE_CONDITIONS (
@@ -34,6 +34,11 @@ CREATE TABLE HARDWARE_CONDITIONS (
 );
 
 CREATE TABLE HARDWARE_STATUS (
+    id INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE DEVICES_CATEGORIES (
     id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
@@ -48,18 +53,20 @@ CREATE TABLE DEVICES (
     wireless BOOLEAN,
     release_date DATE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP,
     user_id INT,
     location_id INT,
     condition_id INT,
     status_id INT,
+    category_id INT,
+    FOREIGN KEY (category_id) REFERENCES DEVICES_CATEGORIES(id),
     FOREIGN KEY (user_id) REFERENCES USERS(id),
     FOREIGN KEY (location_id) REFERENCES LOCATIONS(id),
     FOREIGN KEY (condition_id) REFERENCES HARDWARE_CONDITIONS(id),
     FOREIGN KEY (status_id) REFERENCES HARDWARE_STATUS(id)
 );
 
-CREATE TABLE CATEGORIES (
+CREATE TABLE PARTS_CATEGORIES (
     id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
@@ -73,15 +80,24 @@ CREATE TABLE PARTS (
     colour VARCHAR(50),
     release_date DATE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP,
     device_id INT,
+    user_id INT,
+    location_id INT,
     category_id INT,
     condition_id INT,
     status_id INT,
     FOREIGN KEY (device_id) REFERENCES DEVICES(id),
-    FOREIGN KEY (category_id) REFERENCES CATEGORIES(id),
+    FOREIGN KEY (user_id) REFERENCES USERS(id),
+    FOREIGN KEY (location_id) REFERENCES LOCATIONS(id),
+    FOREIGN KEY (category_id) REFERENCES PARTS_CATEGORIES(id),
     FOREIGN KEY (condition_id) REFERENCES HARDWARE_CONDITIONS(id),
     FOREIGN KEY (status_id) REFERENCES HARDWARE_STATUS(id)
+);
+
+CREATE TABLE SOFTWARE_CATEGORIES (
+    id INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE SOFTWARE (
@@ -90,15 +106,16 @@ CREATE TABLE SOFTWARE (
     avatar VARCHAR(255),
     version VARCHAR(50),
     release_date DATE,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    category_id INT,
+    FOREIGN KEY (category_id) REFERENCES SOFTWARE_CATEGORIES(id)
 );
 
 CREATE TABLE REVIEWS (
     id INT PRIMARY KEY,
     review_text TEXT,
-    rating INT CHECK (rating >= 1 AND rating <= 5),
+    rating INT CHECK (rating >= 0 AND rating <= 10),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP,
     user_id INT,
     device_id INT,
     part_id INT,

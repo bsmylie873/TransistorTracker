@@ -43,6 +43,12 @@ public partial class Part
     [Column("device_id")]
     public int? DeviceId { get; set; }
 
+    [Column("user_id")]
+    public int? UserId { get; set; }
+
+    [Column("location_id")]
+    public int? LocationId { get; set; }
+
     [Column("category_id")]
     public int? CategoryId { get; set; }
 
@@ -54,7 +60,7 @@ public partial class Part
 
     [ForeignKey("CategoryId")]
     [InverseProperty("Parts")]
-    public virtual Category? Category { get; set; }
+    public virtual PartsCategory? Category { get; set; }
 
     [ForeignKey("ConditionId")]
     [InverseProperty("Parts")]
@@ -64,10 +70,18 @@ public partial class Part
     [InverseProperty("Parts")]
     public virtual Device? Device { get; set; }
 
+    [ForeignKey("LocationId")]
+    [InverseProperty("Parts")]
+    public virtual Location? Location { get; set; }
+
     [InverseProperty("Part")]
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 
     [ForeignKey("StatusId")]
     [InverseProperty("Parts")]
     public virtual HardwareStatus? Status { get; set; }
+
+    [ForeignKey("UserId")]
+    [InverseProperty("Parts")]
+    public virtual User? User { get; set; }
 }

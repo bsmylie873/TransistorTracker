@@ -53,4 +53,7 @@ public partial class Location
 
     [InverseProperty("Location")]
     public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
+
+    [InverseProperty("Location")]
+    public virtual ICollection<Part> Parts { get; set; } = new List<Part>();
 }

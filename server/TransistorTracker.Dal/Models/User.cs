@@ -40,6 +40,9 @@ public partial class User
     public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
 
     [InverseProperty("User")]
+    public virtual ICollection<Part> Parts { get; set; } = new List<Part>();
+
+    [InverseProperty("User")]
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 
     [ForeignKey("UserTypeId")]

@@ -56,6 +56,13 @@ public partial class Device
     [Column("status_id")]
     public int? StatusId { get; set; }
 
+    [Column("category_id")]
+    public int? CategoryId { get; set; }
+
+    [ForeignKey("CategoryId")]
+    [InverseProperty("Devices")]
+    public virtual DevicesCategory? Category { get; set; }
+
     [ForeignKey("ConditionId")]
     [InverseProperty("Devices")]
     public virtual HardwareCondition? Condition { get; set; }
