@@ -1,8 +1,12 @@
 name: Verify Migrations
 
 on:
+  push:
+    branches: [ master ]
+    paths:
+      - "database/migrations/**"
   pull_request:
-    branches: [ develop, master ]
+    branches: [ master ]
     paths:
       - "database/migrations/**"
   workflow_dispatch:
@@ -13,4 +17,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: execute flyway in docker compose 🐳
-        run: docker-compose up --abort-on-container-exit
+        run: docker compose up --abort-on-container-exit
