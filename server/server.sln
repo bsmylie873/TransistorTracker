@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransitorTracker.Api", "TransitorTracker.Api\TransitorTracker.Api.csproj", "{83C34EA4-7A89-47F2-8ECF-49EE04CAFF77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransitorTracker.Dal", "TransitorTracker.Dal\TransitorTracker.Dal.csproj", "{9A72DA5F-D1A4-4B19-9A0F-2AEFA2C00606}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransistorTracker.Server", "TransistorTracker.Server\TransistorTracker.Server.csproj", "{5CD66B13-3DD4-4BA3-920F-759049B9508D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransitorTracker.Services", "TransitorTracker.Services\TransitorTracker.Services.csproj", "{4C0B56B1-B32E-4B80-9C93-54FBB8D4A8C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83C34EA4-7A89-47F2-8ECF-49EE04CAFF77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83C34EA4-7A89-47F2-8ECF-49EE04CAFF77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83C34EA4-7A89-47F2-8ECF-49EE04CAFF77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83C34EA4-7A89-47F2-8ECF-49EE04CAFF77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A72DA5F-D1A4-4B19-9A0F-2AEFA2C00606}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A72DA5F-D1A4-4B19-9A0F-2AEFA2C00606}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A72DA5F-D1A4-4B19-9A0F-2AEFA2C00606}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A72DA5F-D1A4-4B19-9A0F-2AEFA2C00606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CD66B13-3DD4-4BA3-920F-759049B9508D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CD66B13-3DD4-4BA3-920F-759049B9508D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CD66B13-3DD4-4BA3-920F-759049B9508D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CD66B13-3DD4-4BA3-920F-759049B9508D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C0B56B1-B32E-4B80-9C93-54FBB8D4A8C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C0B56B1-B32E-4B80-9C93-54FBB8D4A8C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C0B56B1-B32E-4B80-9C93-54FBB8D4A8C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C0B56B1-B32E-4B80-9C93-54FBB8D4A8C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
