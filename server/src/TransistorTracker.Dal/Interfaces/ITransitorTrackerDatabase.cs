@@ -1,4 +1,4 @@
-namespace TransitorTracker.Dal.Interfaces;
+namespace TransistorTracker.Dal.Interfaces;
 
 public interface ITransitorTrackerDatabase
 {

@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
-namespace TransitorTracker.Dal.Contexts;
+namespace TransistorTracker.Dal.Contexts;
 
 [ExcludeFromCodeCoverage]
 public abstract class BaseContext : DbContext

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using TransitorTracker.Dal.Interfaces;
-using TransitorTracker.Dal.Models;
+using TransistorTracker.Dal.Interfaces;
+using TransistorTracker.Dal.Models;
 
-namespace TransitorTracker.Dal.Contexts;
+namespace TransistorTracker.Dal.Contexts;
 
 public class TransitorTrackerContext : BaseContext, ITransitorTrackerDatabase
 {
