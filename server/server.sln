@@ -1,10 +1,11 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransistorTracker.Api", "TransistorTracker.Api\TransistorTracker.Api.csproj", "{83C34EA4-7A89-47F2-8ECF-49EE04CAFF77}"
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransistorTracker.Api", "src\TransistorTracker.Api\TransistorTracker.Api.csproj", "{83C34EA4-7A89-47F2-8ECF-49EE04CAFF77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransistorTracker.Dal", "TransistorTracker.Dal\TransistorTracker.Dal.csproj", "{9A72DA5F-D1A4-4B19-9A0F-2AEFA2C00606}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransistorTracker.Dal", "src\TransistorTracker.Dal\TransistorTracker.Dal.csproj", "{9A72DA5F-D1A4-4B19-9A0F-2AEFA2C00606}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransistorTracker.Services", "TransistorTracker.Services\TransistorTracker.Services.csproj", "{4C0B56B1-B32E-4B80-9C93-54FBB8D4A8C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransistorTracker.Services", "src\TransistorTracker.Services\TransistorTracker.Services.csproj", "{4C0B56B1-B32E-4B80-9C93-54FBB8D4A8C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransistorTracker.Api.Test", "test\TransistorTracker.Api.Test\TransistorTracker.Api.Test.csproj", "{D8A8B7A2-6C88-4C7F-9F96-0E20D462DCC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +25,9 @@ Global
 		{4C0B56B1-B32E-4B80-9C93-54FBB8D4A8C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C0B56B1-B32E-4B80-9C93-54FBB8D4A8C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C0B56B1-B32E-4B80-9C93-54FBB8D4A8C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8A8B7A2-6C88-4C7F-9F96-0E20D462DCC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A8B7A2-6C88-4C7F-9F96-0E20D462DCC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A8B7A2-6C88-4C7F-9F96-0E20D462DCC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A8B7A2-6C88-4C7F-9F96-0E20D462DCC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
