@@ -11,12 +11,31 @@ erDiagram
         timestamp modified_date
         int user_type_id FK
     }
+    USER_TYPES {
+        int id PK
+        string type_name
+    }
+    HARDWARE_STATUSES {
+        int id PK
+        string name
+    }
+    HARDWARE_CONDITIONS {
+        int id PK
+        string name
+    }
     LOCATIONS {
         int id PK
         string name
-        string address
+        string avatar
+        string house_number
+        string street
+        string city
+        string state
+        string postal_code
+        string country
         timestamp created_date
         timestamp modified_date
+        int user_id FK
     }
     DEVICES {
         int id PK
@@ -35,6 +54,7 @@ erDiagram
     PARTS {
         int id PK
         string name
+        string avatar
         string description
         int wattage
         string colour
@@ -42,20 +62,43 @@ erDiagram
         timestamp created_date
         timestamp modified_date
         int device_id FK
+        int user_id FK
+        int location_id FK
         int category_id FK
         int condition_id FK
+        int status_id FK
     }
     SOFTWARE {
         int id PK
         string name
+        string avatar
         string version
         date release_date
-        timestamp created_date
+        int category_id FK
     }
-    CATEGORIES {
+    SOFTWARE_CATEGORIES {
         int id PK
         string name
-        timestamp created_date
+    }
+    SOFTWARE_COMPATIBILITY_LEVELS {
+        int id PK
+        string name
+        string description
+    }
+    SOFTWARE_COMPATIBILITIES {
+        int id PK
+        int software_id FK
+        int part_id FK
+        int device_id FK
+        int software_compatibility_level_id FK
+    }
+    PARTS_CATEGORIES {
+        int id PK
+        string name
+    }
+    DEVICES_CATEGORIES {
+        int id PK
+        string name
     }
     REVIEWS {
         int id PK
@@ -67,28 +110,25 @@ erDiagram
         int device_id FK
         int part_id FK
     }
-    CONDITIONS {
-        int id PK
-        string name
-        string description
-        timestamp created_date
-    }
-    USER_TYPES {
-        int id PK
-        string type_name
-        string description
-        timestamp created_date
-    }
 
     USERS ||--o{ DEVICES : owns
+    USERS ||--o{ PARTS : owns
     USERS ||--|{ LOCATIONS : has
+    USERS ||--o{ REVIEWS : writes
+    USER_TYPES ||--o{ USERS : determines
+    LOCATIONS ||--o{ DEVICES : stores
+    LOCATIONS ||--o{ PARTS : stores
     DEVICES ||--o{ PARTS : has
     DEVICES ||--o{ REVIEWS : receives
-    LOCATIONS ||--o{ DEVICES : stores
+    DEVICES ||--o{ SOFTWARE_COMPATIBILITIES : has
+    DEVICES_CATEGORIES ||--o{ DEVICES : defines
     PARTS ||--o{ REVIEWS : receives
-    PARTS ||--o{ SOFTWARE : supports
-    PARTS ||--|{ CATEGORIES : has
-    USERS ||--o{ REVIEWS : writes
-    CONDITIONS ||--o{ DEVICES : applies
-    CONDITIONS ||--o{ PARTS : applies
-    USER_TYPES ||--o{ USERS : determines
+    PARTS ||--o{ SOFTWARE_COMPATIBILITIES : has
+    PARTS_CATEGORIES ||--o{ PARTS : defines
+    HARDWARE_CONDITIONS ||--o{ DEVICES : applies
+    HARDWARE_CONDITIONS ||--o{ PARTS : applies
+    HARDWARE_STATUSES ||--o{ DEVICES : applies
+    HARDWARE_STATUSES ||--o{ PARTS : applies
+    SOFTWARE_CATEGORIES ||--o{ SOFTWARE : defines
+    SOFTWARE ||--o{ SOFTWARE_COMPATIBILITIES : has
+    SOFTWARE_COMPATIBILITY_LEVELS ||--o{ SOFTWARE_COMPATIBILITIES : defines

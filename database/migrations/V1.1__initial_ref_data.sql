@@ -1,4 +1,4 @@
-INSERT INTO HARDWARE_STATUS (id, name) VALUES
+INSERT INTO HARDWARE_STATUSES (id, name) VALUES
 (1, 'Active'),
 (2, 'Inactive');
 
