@@ -14,7 +14,7 @@ services:
     image: flyway/flyway
     command: -url=jdbc:postgresql://db/transistor-tracker -schemas=public -user=transistor-tracker -password=password1 -outOfOrder=true -connectRetries=5 migrate
     volumes:
-      - ./database/migrations:/flyway/sql
+      - ./database:/flyway/sql
     depends_on:
       - db
 volumes:
