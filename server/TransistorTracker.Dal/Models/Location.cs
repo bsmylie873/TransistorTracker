@@ -51,9 +51,16 @@ public partial class Location
     [Column("modified_date", TypeName = "timestamp without time zone")]
     public DateTime? ModifiedDate { get; set; }
 
+    [Column("user_id")]
+    public int? UserId { get; set; }
+
     [InverseProperty("Location")]
     public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
 
     [InverseProperty("Location")]
     public virtual ICollection<Part> Parts { get; set; } = new List<Part>();
+
+    [ForeignKey("UserId")]
+    [InverseProperty("Locations")]
+    public virtual User? User { get; set; }
 }

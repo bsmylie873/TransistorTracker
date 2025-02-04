@@ -40,6 +40,9 @@ public partial class User
     public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
 
     [InverseProperty("User")]
+    public virtual ICollection<Location> Locations { get; set; } = new List<Location>();
+
+    [InverseProperty("User")]
     public virtual ICollection<Part> Parts { get; set; } = new List<Part>();
 
     [InverseProperty("User")]
