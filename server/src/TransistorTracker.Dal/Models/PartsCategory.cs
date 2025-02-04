@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace TransitorTracker.Dal.Models;
+namespace TransistorTracker.Dal.Models;
 
 [Table("parts_categories")]
 public partial class PartsCategory

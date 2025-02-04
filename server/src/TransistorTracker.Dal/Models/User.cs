@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace TransitorTracker.Dal.Models;
+namespace TransistorTracker.Dal.Models;
 
 [Table("users")]
 [Index("Email", Name = "users_email_key", IsUnique = true)]
