@@ -77,6 +77,9 @@ public partial class Part
     [InverseProperty("Part")]
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 
+    [InverseProperty("Part")]
+    public virtual ICollection<SoftwareCompatibility> SoftwareCompatibilities { get; set; } = new List<SoftwareCompatibility>();
+
     [ForeignKey("StatusId")]
     [InverseProperty("Parts")]
     public virtual HardwareStatus? Status { get; set; }

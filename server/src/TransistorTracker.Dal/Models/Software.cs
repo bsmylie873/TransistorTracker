@@ -34,4 +34,7 @@ public partial class Software
     [ForeignKey("CategoryId")]
     [InverseProperty("Softwares")]
     public virtual SoftwareCategory? Category { get; set; }
+
+    [InverseProperty("Software")]
+    public virtual ICollection<SoftwareCompatibility> SoftwareCompatibilities { get; set; } = new List<SoftwareCompatibility>();
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TransitorTracker.Dal.Models;
 
-[Table("hardware_status")]
+[Table("hardware_statuses")]
 public partial class HardwareStatus
 {
     [Key]
