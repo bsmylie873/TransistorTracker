@@ -1,6 +1,10 @@
 using AutoMapper;
 using TransistorTracker.Dal.Interfaces;
+using TransistorTracker.Dal.Models;
+using TransistorTracker.Dal.Specifications.Parts;
+using TransistorTracker.Server.DTOs.Parts;
 using TransistorTracker.Server.Interfaces;
+using Unosquare.EntityFramework.Specification.Common.Extensions;
 
 namespace TransistorTracker.Server.Services;
 
@@ -14,28 +18,55 @@ public class PartService : IPartService
         (_database, _mapper) = (database, mapper);
     }
     
-    public IEnumerable<string> GetAllParts()
+    public IList<PartDto> GetAllParts()
     {
-        throw new NotImplementedException();
+        var partQuery = _database
+            .Get<Part>();
+
+        return _mapper
+            .ProjectTo<PartDto>(partQuery)
+            .ToList();
     }
 
-    public string GetPartById(int id)
+    public PartDto? GetPartById(int id)
     {
-        throw new NotImplementedException();
+        var part = _database
+            .Get<Part>()
+            .FirstOrDefault(new PartByIdSpec(id));
+
+        return _mapper.Map<PartDto>(part) ?? null;
     }
 
-    public void CreatePart(string part)
+    public void CreatePart(CreatePartDto part)
     {
-        throw new NotImplementedException();
+        var newPart = _mapper.Map<Part>(part);
+        _database.Add(newPart);
+        _database.SaveChanges();
     }
 
-    public void UpdatePart(int id, string part)
+    public bool UpdatePart(int id, UpdatePartDto part)
     {
-        throw new NotImplementedException();
+        var currentPart = _database
+            .Get<Part>()
+            .FirstOrDefault(new PartByIdSpec(id));
+
+        if (currentPart == null) return false;
+
+        _mapper.Map(part, currentPart);
+        _database.SaveChanges();
+        return true;
     }
 
-    public void DeletePart(int id)
+    public bool DeletePart(int id)
     {
-        throw new NotImplementedException();
+        var part = _database
+            .Get<Part>()
+            .FirstOrDefault(new PartByIdSpec(id));
+
+        if (part == null) return false;
+
+        _database.Delete(part);
+        _database.SaveChanges();
+        return true;
     }
 }

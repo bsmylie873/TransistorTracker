@@ -15,6 +15,7 @@ builder.Services.AddScoped<ITransitorTrackerDatabase, TransistorTrackerContext>(
     new TransistorTrackerContext(EnvironmentVariables.DbConnectionString));
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<IPartService, PartService>();
 builder.Services.AddScoped<ISoftwareService, SoftwareService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
