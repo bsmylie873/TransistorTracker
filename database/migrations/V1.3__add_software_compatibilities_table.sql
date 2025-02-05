@@ -1,11 +1,11 @@
 CREATE TABLE SOFTWARE_COMPATIBILITY_LEVELS (
-    id INT PRIMARY KEY,
+    id SERIAL CONSTRAINT software_compatibility_levels_id PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(255)
 );
 
 CREATE TABLE SOFTWARE_COMPATIBILITIES (
-    id INT PRIMARY KEY,
+    id SERIAL CONSTRAINT software_compatibilities_id PRIMARY KEY,
     software_id INT NOT NULL,
     part_id INT,
     device_id INT,

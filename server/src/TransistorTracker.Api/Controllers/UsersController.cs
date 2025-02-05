@@ -1,5 +1,10 @@
+using System.Collections;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TransistorTracker.Api.Controllers.Base;
+using TransistorTracker.Api.ViewModels.Users;
+using TransistorTracker.Server.DTOs.Users;
+using TransistorTracker.Server.Interfaces;
 
 namespace TransistorTracker.Api.Controllers;
 
@@ -7,33 +12,48 @@ namespace TransistorTracker.Api.Controllers;
 [Route("users")]
 public class UsersController : TransistorTrackerBaseController
 {
-    [HttpGet]
-    public ActionResult<string> GetUsers()
+    private readonly IMapper _mapper;
+    private readonly IUserService _service;
+
+    public UsersController(IMapper mapper, IUserService service)
     {
-        return Ok(1);
+        (_mapper, _service) = (mapper, service);
+    }
+    
+    [HttpGet]
+    public ActionResult<IList<UserViewModel>> GetUsers()
+    {
+        var users = _service.GetAllUsers();
+        return OkOrNoListContent((IList)_mapper.Map<IList<UserViewModel>>(users));
     }
     
     [HttpGet("{id}")]
     public ActionResult<string> GetUserById(int id)
     {
-        return Ok(1);
+        var user = _service.GetUserById(id);
+        return OkOrNoNotFound(_mapper.Map<UserViewModel>(user));
     }
     
     [HttpPost]
-    public ActionResult CreateUser([FromBody] string user)
+    public ActionResult CreateUser([FromBody] CreateUserViewModel user)
     {
-        return Created("", user);
+        _service.CreateUser(_mapper.Map<CreateUserDto>(user));
+        return Created();
     }
     
     [HttpPut("{id}")]
-    public ActionResult UpdateUser(int id, [FromBody] string user)
+    public ActionResult UpdateUser(int id, [FromBody] UpdateUserViewModel user)
     {
-        return NoContent();
+        var updated = _service.UpdateUser(id, _mapper.Map<UpdateUserDto>(user));
+        if (updated) return Ok();
+        return NotFound($"User with id {id} not found");
     }
     
     [HttpDelete("{id}")]
     public ActionResult DeleteUser(int id)
     {
-        return NoContent();
+        var deleted = _service.DeleteUser(id);
+        if (deleted) return NoContent();
+        return NotFound($"User with id {id} not found");
     }
 }
