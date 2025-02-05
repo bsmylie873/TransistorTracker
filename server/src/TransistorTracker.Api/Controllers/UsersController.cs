@@ -28,7 +28,7 @@ public class UsersController : TransistorTrackerBaseController
     }
     
     [HttpGet("{id}")]
-    public ActionResult<string> GetUserById(int id)
+    public ActionResult<UserViewModel> GetUserById(int id)
     {
         var user = _service.GetUserById(id);
         return OkOrNoNotFound(_mapper.Map<UserViewModel>(user));

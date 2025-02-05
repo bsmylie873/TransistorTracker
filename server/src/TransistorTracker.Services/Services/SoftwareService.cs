@@ -1,6 +1,10 @@
 using AutoMapper;
 using TransistorTracker.Dal.Interfaces;
+using TransistorTracker.Dal.Models;
+using TransistorTracker.Dal.Specifications.Software;
+using TransistorTracker.Server.DTOs.Software;
 using TransistorTracker.Server.Interfaces;
+using Unosquare.EntityFramework.Specification.Common.Extensions;
 
 namespace TransistorTracker.Server.Services;
 
@@ -14,28 +18,55 @@ public class SoftwareService : ISoftwareService
         (_database, _mapper) = (database, mapper);
     }
     
-    public IEnumerable<string> GetAllSoftware()
+    public IList<SoftwareDto> GetAllSoftware()
     {
-        throw new NotImplementedException();
+        var userQuery = _database
+            .Get<Software>();
+
+        return _mapper
+            .ProjectTo<SoftwareDto>(userQuery)
+            .ToList();
     }
 
-    public string GetSoftwareById(int id)
+    public SoftwareDto? GetSoftwareById(int id)
     {
-        throw new NotImplementedException();
+        var software = _database
+            .Get<Software>()
+            .FirstOrDefault(new SoftwareByIdSpec(id));
+        
+        return software == null ? null : _mapper.Map<SoftwareDto>(software);
     }
 
-    public void CreateSoftware(string software)
+    public void CreateSoftware(CreateSoftwareDto software)
     {
-        throw new NotImplementedException();
+        var newSoftware = _mapper.Map<Software>(software);
+        _database.Add(newSoftware);
+        _database.SaveChanges();
     }
 
-    public void UpdateSoftware(int id, string software)
+    public bool UpdateSoftware(int id, UpdateSoftwareDto software)
     {
-        throw new NotImplementedException();
+        var currentSoftware = _database
+            .Get<Software>()
+            .FirstOrDefault(new SoftwareByIdSpec(id));
+
+        if (currentSoftware == null) return false;
+
+        _mapper.Map(software, currentSoftware);
+        _database.SaveChanges();
+        return true;
     }
 
-    public void DeleteSoftware(int id)
+    public bool DeleteSoftware(int id)
     {
-        throw new NotImplementedException();
+        var software = _database
+            .Get<Software>()
+            .FirstOrDefault(new SoftwareByIdSpec(id));
+
+        if (software == null) return false;
+
+        _database.Delete(software);
+        _database.SaveChanges();
+        return true;
     }
 }

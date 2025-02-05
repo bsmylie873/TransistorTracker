@@ -1,10 +1,12 @@
+using TransistorTracker.Server.DTOs.Software;
+
 namespace TransistorTracker.Server.Interfaces;
 
 public interface ISoftwareService
 {
-    IEnumerable<string> GetAllSoftware();
-    string GetSoftwareById(int id);
-    void CreateSoftware(string software);
-    void UpdateSoftware(int id, string software);
-    void DeleteSoftware(int id);
+    IList<SoftwareDto> GetAllSoftware();
+    SoftwareDto? GetSoftwareById(int id);
+    void CreateSoftware(CreateSoftwareDto software);
+    bool UpdateSoftware(int id, UpdateSoftwareDto software);
+    bool DeleteSoftware(int id);
 }
