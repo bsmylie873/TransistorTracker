@@ -1,10 +1,12 @@
+using TransistorTracker.Server.DTOs.Users;
+
 namespace TransistorTracker.Server.Interfaces;
 
 public interface IUserService
 {
-    IEnumerable<string> GetAllUsers();
-    string GetUserById(int id);
-    void CreateUser(string user);
-    void UpdateUser(int id, string user);
-    void DeleteUser(int id);
+    IList<UserDto> GetAllUsers();
+    UserDto? GetUserById(int id);
+    void CreateUser(CreateUserDto user);
+    bool UpdateUser(int id, UpdateUserDto user);
+    bool DeleteUser(int id);
 }

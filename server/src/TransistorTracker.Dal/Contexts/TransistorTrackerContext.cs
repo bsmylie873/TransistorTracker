@@ -4,13 +4,13 @@ using TransistorTracker.Dal.Models;
 
 namespace TransistorTracker.Dal.Contexts;
 
-public class TransitorTrackerContext : BaseContext, ITransitorTrackerDatabase
+public class TransistorTrackerContext : BaseContext, ITransitorTrackerDatabase
 {
-    public TransitorTrackerContext(DbContextOptions option) : base(option)
+    public TransistorTrackerContext(DbContextOptions option) : base(option)
     {
     }
 
-    public TransitorTrackerContext(string connectionString) : base(connectionString)
+    public TransistorTrackerContext(string connectionString) : base(connectionString)
     {
     }
     

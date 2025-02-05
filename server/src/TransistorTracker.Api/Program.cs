@@ -1,3 +1,7 @@
+using TransistorTracker.Api;
+using TransistorTracker.Dal.Contexts;
+using TransistorTracker.Dal.Interfaces;
+using TransistorTracker.Server.Interfaces;
 using TransistorTracker.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(config => config.AllowNullCollections = true, typeof(Program).Assembly,
     typeof(UserService).Assembly);
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ITransitorTrackerDatabase, TransistorTrackerContext>(_ =>
+    new TransistorTrackerContext(EnvironmentVariables.DbConnectionString));
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

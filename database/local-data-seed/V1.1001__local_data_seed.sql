@@ -10,6 +10,8 @@ INSERT INTO USERS (id, username, email, avatar, user_type_id) VALUES
 (9, 'grace_red', 'grace.red@example.com', 'grace_avatar.png', 3),
 (10, 'heidi_yellow', 'heidi.yellow@example.com', 'heidi_avatar.png', 1);
 
+ALTER SEQUENCE users_id_seq RESTART WITH 11;
+
 INSERT INTO LOCATIONS (id, name, avatar, house_number, street, city, state, postal_code, country) VALUES
 (1, 'Headquarters', 'hq_avatar.png', '123', 'Main St', 'Metropolis', 'NY', '10001', 'USA'),
 (2, 'Branch Office', 'branch_avatar.png', '456', 'Second St', 'Gotham', 'NJ', '07001', 'USA'),
@@ -21,6 +23,8 @@ INSERT INTO LOCATIONS (id, name, avatar, house_number, street, city, state, post
 (8, 'Training Facility', 'training_avatar.png', '505', 'Eighth St', 'Keystone City', 'PA', '10002', 'USA'),
 (9, 'Sales Office', 'sales_avatar.png', '606', 'Ninth St', 'Opal City', 'GA', '20001', 'USA'),
 (10, 'Marketing Office', 'marketing_avatar.png', '707', 'Tenth St', 'Gateway City', 'WA', '30001', 'USA');
+
+ALTER SEQUENCE locations_id_seq RESTART WITH 11;
 
 INSERT INTO DEVICES (id, name, avatar, model, wattage, colour, wireless, release_date, user_id, location_id, condition_id, status_id, category_id) VALUES
 (1, 'MacBook Pro', 'macbook_avatar.png', 'MBP2021', 100, 'Space Gray', true, '2022-01-01', 1, 1, 1, 1, 1),
@@ -44,6 +48,8 @@ INSERT INTO DEVICES (id, name, avatar, model, wattage, colour, wireless, release
 (19, 'HP Envy', 'envy_avatar.png', 'Envy2021', 240, 'Black', true, '2023-07-01', 4, 4, 1, 1, 1),
 (20, 'Dell Inspiron', 'inspiron_avatar.png', 'Inspiron2021', 250, 'Gray', false, '2023-08-01', 5, 5, 2, 2, 2);
 
+ALTER SEQUENCE devices_id_seq RESTART WITH 21;
+
 INSERT INTO PARTS (id, name, avatar, description, wattage, colour, release_date, device_id, user_id, location_id, category_id, condition_id, status_id) VALUES
 (1, 'Intel i7 CPU', 'cpu_avatar.png', '8th Gen Intel Core i7', 50, 'Silver', '2022-01-01', 1, 1, 1, 1, 1, 1),
 (2, 'NVIDIA GTX 1050', 'gpu_avatar.png', 'NVIDIA GeForce GTX 1050', 75, 'Black', '2022-02-01', 2, 2, 2, 2, 2, 1),
@@ -60,6 +66,8 @@ INSERT INTO PARTS (id, name, avatar, description, wattage, colour, release_date,
 (13, 'HyperX RAM 32GB', 'ram_hyperx_avatar.png', 'HyperX 32GB RAM', 10, 'Black', '2023-01-01', 11, 1, 1, 1, 1, 1),
 (14, 'Western Digital HDD 1TB', 'hdd_wd_avatar.png', 'Western Digital 1TB HDD', 10, 'Black', '2023-02-01', 12, 2, 2, 2, 2, 2),
 (15, 'Asus Motherboard', 'motherboard_avatar.png', 'Asus ROG Strix B450-F', 50, 'Black', '2023-03-01', NULL, 3, 3, 3, 3, 2);
+
+ALTER SEQUENCE parts_id_seq RESTART WITH 16;
 
 INSERT INTO SOFTWARE (id, name, avatar, version, release_date, category_id) VALUES
 (1, 'Windows 10', 'windows_avatar.png', '10.0', '2022-01-01', 1),
@@ -78,6 +86,8 @@ INSERT INTO SOFTWARE (id, name, avatar, version, release_date, category_id) VALU
 (14, 'Manjaro', 'manjaro_avatar.png', '21.1', '2023-02-01', 1),
 (15, 'openSUSE', 'opensuse_avatar.png', '15.3', '2023-03-01', 1);
 
+ALTER SEQUENCE software_id_seq RESTART WITH 16;
+
 INSERT INTO REVIEWS (id, review_text, rating, user_id, device_id, part_id) VALUES
 (1, 'Excellent compatibility with my system.', 9, 1, 1, NULL),
 (2, 'Good compatibility but some minor issues.', 7, 2, NULL, 1),
@@ -94,6 +104,8 @@ INSERT INTO REVIEWS (id, review_text, rating, user_id, device_id, part_id) VALUE
 (13, 'Fantastic performance, fully compatible.', 9, 3, 7, NULL),
 (14, 'Very satisfied with the compatibility.', 8, 4, NULL, 7),
 (15, 'Would use again, no compatibility issues.', 9, 5, 8, NULL);
+
+ALTER SEQUENCE reviews_id_seq RESTART WITH 16;
 
 INSERT INTO SOFTWARE_COMPATIBILITIES (id, software_id, part_id, device_id, software_compatibility_level_id) VALUES
 (1, 1, 1, NULL, 1),
@@ -126,3 +138,5 @@ INSERT INTO SOFTWARE_COMPATIBILITIES (id, software_id, part_id, device_id, softw
 (28, 14, NULL, 2, 3),
 (29, 15, 1, NULL, 1),
 (30, 15, NULL, 2, 2);
+
+ALTER SEQUENCE software_compatibilities_id_seq RESTART WITH 31;

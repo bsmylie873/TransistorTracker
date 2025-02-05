@@ -20,6 +20,8 @@ INSERT INTO PARTS_CATEGORIES (id, name) VALUES
 (19, 'Expansion Card'),
 (20, 'Speakers');
 
+ALTER SEQUENCE parts_categories_id_seq RESTART WITH 21;
+
 INSERT INTO DEVICES_CATEGORIES (id, name) VALUES
 (1, 'Laptop'),
 (2, 'Desktop'),
@@ -42,6 +44,8 @@ INSERT INTO DEVICES_CATEGORIES (id, name) VALUES
 (19, 'Smart Home Hub'),
 (20, 'External Storage');
 
+ALTER SEQUENCE devices_categories_id_seq RESTART WITH 21;
+
 INSERT INTO SOFTWARE_CATEGORIES (id, name) VALUES
 (1, 'Operating System'),
 (2, 'Productivity'),
@@ -63,3 +67,5 @@ INSERT INTO SOFTWARE_CATEGORIES (id, name) VALUES
 (18, 'Shopping'),
 (19, 'Social'),
 (20, 'Weather');
+
+ALTER SEQUENCE software_categories_id_seq RESTART WITH 21;
