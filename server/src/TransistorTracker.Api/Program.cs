@@ -13,6 +13,7 @@ builder.Services.AddAutoMapper(config => config.AllowNullCollections = true, typ
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ITransitorTrackerDatabase, TransistorTrackerContext>(_ =>
     new TransistorTrackerContext(EnvironmentVariables.DbConnectionString));
+builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<ISoftwareService, SoftwareService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
