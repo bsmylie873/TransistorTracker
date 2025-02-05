@@ -1,5 +1,10 @@
+using System.Collections;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TransistorTracker.Api.Controllers.Base;
+using TransistorTracker.Api.ViewModels.Parts;
+using TransistorTracker.Server.DTOs.Parts;
+using TransistorTracker.Server.Interfaces;
 
 namespace TransistorTracker.Api.Controllers;
 
@@ -7,33 +12,48 @@ namespace TransistorTracker.Api.Controllers;
 [Route("parts")]
 public class PartsController : TransistorTrackerBaseController
 {
-    [HttpGet]
-    public ActionResult<string> GetParts()
+    private readonly IMapper _mapper;
+    private readonly IPartService _service;
+    
+    public PartsController(IMapper mapper, IPartService service)
     {
-        return Ok(1);
+        (_mapper, _service) = (mapper, service);
+    }
+    
+    [HttpGet]
+    public ActionResult<IList<PartViewModel>> GetParts()
+    {
+        var parts = _service.GetAllParts();
+        return OkOrNoListContent((IList)_mapper.Map<IList<PartViewModel>>(parts));
     }
     
     [HttpGet("{id}")]
-    public ActionResult<string> GetPartById(int id)
+    public ActionResult<PartViewModel> GetPartById(int id)
     {
-        return Ok(1);
+        var part = _service.GetPartById(id);
+        return OkOrNoNotFound(_mapper.Map<PartViewModel>(part));
     }
 
     [HttpPost]
-    public ActionResult CreatePart([FromBody] string part)
+    public ActionResult CreatePart([FromBody] CreatePartViewModel part)
     {
-        return Created("", part);
+        _service.CreatePart(_mapper.Map<CreatePartDto>(part));
+        return Created();
     }
 
     [HttpPut("{id}")]
-    public ActionResult UpdateDevice(int id, [FromBody] string part)
+    public ActionResult UpdateDevice(int id, [FromBody] UpdatePartViewModel part)
     {
-        return NoContent();
+        var updated = _service.UpdatePart(id, _mapper.Map<UpdatePartDto>(part));
+        if (updated) return Ok();
+        return NotFound($"Part with id {id} not found");
     }
 
     [HttpDelete("{id}")]
     public ActionResult DeleteDevice(int id)
     {
-        return NoContent();
+        var deleted = _service.DeletePart(id);
+        if (deleted) return NoContent();
+        return NotFound($"Part with id {id} not found");
     }
 }
