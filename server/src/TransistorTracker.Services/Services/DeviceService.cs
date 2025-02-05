@@ -1,6 +1,10 @@
 using AutoMapper;
 using TransistorTracker.Dal.Interfaces;
+using TransistorTracker.Dal.Models;
+using TransistorTracker.Dal.Specifications.Devices;
+using TransistorTracker.Server.DTOs.Devices;
 using TransistorTracker.Server.Interfaces;
+using Unosquare.EntityFramework.Specification.Common.Extensions;
 
 namespace TransistorTracker.Server.Services;
 
@@ -14,28 +18,55 @@ public class DeviceService : IDeviceService
         (_database, _mapper) = (database, mapper);
     }
     
-    public IEnumerable<string> GetAllDevices()
+    public IList<DeviceDto> GetAllDevices()
     {
-        throw new NotImplementedException();
+        var deviceQuery = _database
+            .Get<Device>();
+
+        return _mapper
+            .ProjectTo<DeviceDto>(deviceQuery)
+            .ToList();
     }
 
-    public string GetDeviceById(int id)
+    public DeviceDto? GetDeviceById(int id)
     {
-        throw new NotImplementedException();
+        var device = _database
+            .Get<Device>()
+            .FirstOrDefault(new DeviceByIdSpec(id));
+
+        return _mapper.Map<DeviceDto>(device) ?? null;
     }
 
-    public void CreateDevice(string device)
+    public void CreateDevice(CreateDeviceDto device)
     {
-        throw new NotImplementedException();
+        var newDevice = _mapper.Map<Device>(device);
+        _database.Add(newDevice);
+        _database.SaveChanges();
     }
 
-    public void UpdateDevice(int id, string device)
+    public bool UpdateDevice(int id, UpdateDeviceDto device)
     {
-        throw new NotImplementedException();
+        var currentDevice = _database
+            .Get<Device>()
+            .FirstOrDefault(new DeviceByIdSpec(id));
+
+        if (currentDevice == null) return false;
+
+        _mapper.Map(device, currentDevice);
+        _database.SaveChanges();
+        return true;
     }
 
-    public void DeleteDevice(int id)
+    public bool DeleteDevice(int id)
     {
-        throw new NotImplementedException();
+        var device = _database
+            .Get<Device>()
+            .FirstOrDefault(new DeviceByIdSpec(id));
+
+        if (device == null) return false;
+
+        _database.Delete(device);
+        _database.SaveChanges();
+        return true;
     }
 }
