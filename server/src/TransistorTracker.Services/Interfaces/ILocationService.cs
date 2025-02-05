@@ -1,10 +1,12 @@
+using TransistorTracker.Server.DTOs.Locations;
+
 namespace TransistorTracker.Server.Interfaces;
 
 public interface ILocationService
 {
-    IEnumerable<string> GetAllLocations();
-    string GetLocationById(int id);
-    void CreateLocation(string location);
-    void UpdateLocation(int id, string location);
-    void DeleteLocation(int id);
+    IList<LocationDto> GetAllLocations();
+    LocationDto? GetLocationById(int id);
+    void CreateLocation(CreateLocationDto location);
+    bool UpdateLocation(int id, UpdateLocationDto location);
+    bool DeleteLocation(int id);
 }

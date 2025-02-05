@@ -1,6 +1,10 @@
 using AutoMapper;
 using TransistorTracker.Dal.Interfaces;
+using TransistorTracker.Dal.Models;
+using TransistorTracker.Dal.Specifications.Locations;
+using TransistorTracker.Server.DTOs.Locations;
 using TransistorTracker.Server.Interfaces;
+using Unosquare.EntityFramework.Specification.Common.Extensions;
 
 namespace TransistorTracker.Server.Services;
 
@@ -14,28 +18,55 @@ public class LocationService : ILocationService
         (_database, _mapper) = (database, mapper);
     }
     
-    public IEnumerable<string> GetAllLocations()
+    public IList<LocationDto> GetAllLocations()
     {
-        throw new NotImplementedException();
+        var locationQuery = _database
+            .Get<Location>();
+
+        return _mapper
+            .ProjectTo<LocationDto>(locationQuery)
+            .ToList();
     }
 
-    public string GetLocationById(int id)
+    public LocationDto? GetLocationById(int id)
     {
-        throw new NotImplementedException();
+        var location = _database
+            .Get<Location>()
+            .FirstOrDefault(new LocationByIdSpec(id));
+
+        return _mapper.Map<LocationDto>(location) ?? null;
     }
 
-    public void CreateLocation(string location)
+    public void CreateLocation(CreateLocationDto location)
     {
-        throw new NotImplementedException();
+        var newLocation = _mapper.Map<Location>(location);
+        _database.Add(newLocation);
+        _database.SaveChanges();
     }
 
-    public void UpdateLocation(int id, string location)
+    public bool UpdateLocation(int id, UpdateLocationDto location)
     {
-        throw new NotImplementedException();
+        var currentLocation = _database
+            .Get<Location>()
+            .FirstOrDefault(new LocationByIdSpec(id));
+
+        if (currentLocation == null) return false;
+
+        _mapper.Map(location, currentLocation);
+        _database.SaveChanges();
+        return true;
     }
 
-    public void DeleteLocation(int id)
+    public bool DeleteLocation(int id)
     {
-        throw new NotImplementedException();
+        var location = _database
+            .Get<Location>()
+            .FirstOrDefault(new LocationByIdSpec(id));
+        
+        if (location == null) return false;
+        
+        _database.Delete(location);
+        _database.SaveChanges();
+        return true;
     }
 }
