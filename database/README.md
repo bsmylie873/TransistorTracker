@@ -1,3 +1,38 @@
+# Database Approach
+
+We have adopted a relational database approach for our application. This approach involves organizing data into tables with defined relationships between them. Each table represents an entity, and the relationships between these entities are established using foreign keys. This structure allows for efficient data management, integrity, and retrieval.
+
+Our database schema is designed to minimize redundancy and dependency by organizing data into related tables, a process known as normalization. We use an Entity-Relationship (ER) diagram to visually represent the database structure, showing entities, their attributes, and the relationships between them. Each table has a primary key that uniquely identifies each record, and relationships between tables are established using foreign keys, ensuring referential integrity.
+
+The relational model supports scalability, allowing us to handle growing amounts of data efficiently. Additionally, the schema can be modified and extended as the application evolves, accommodating new requirements and features. This approach ensures that our data is well-structured, consistent, and easily accessible, supporting the overall functionality and performance of the application.
+
+## Migrations
+
+In order to manage the state of the database, we use a database migration tool called Flyway. This tool allows us to execute specifically named migration scripts so we can control the ordering of migrations to be applied and what the database migration specifically output.
+
+## Local Data Seed
+
+As we develop & test locally and we repeatedly require predicatable data within our database for verification, we employ a local data seed approach for each of our databases. These tables are design to add data throughout the database so we have workouts, exercises, users, participations etc available locally as soon as we spin up the database.
+
+NOTE: An important consideration is that we absolutely do not apply the local data seed migrations to any remote databases, they are purely for location verifications and test executions.
+
+# Local Execution
+
+## With Docker
+We can run `docker compose up` from the root directory to spin up a database instance.
+
+## Without Docker
+In order the run the database locally you need at a minumum:
+
+- postgres 14
+
+- flyway
+
+### database creation
+- add a `transistor-tracker` database onto your server.
+- run the command `flyway -url=jdbc:postgresql://localhost/transistor-tracker -schemas=master -user=transistor-tracker -password=password1 -connectRetries=5 migrate`
+
+
 ## Entity-Relationship Diagram
 
 ```mermaid
