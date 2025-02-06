@@ -6,13 +6,13 @@ namespace TransistorTracker.Dal.Contexts;
 [ExcludeFromCodeCoverage]
 public abstract class BaseContext : DbContext
 {
-    private readonly string _connectionString;
+    private readonly string? _connectionString;
 
     protected BaseContext(DbContextOptions option) : base(option)
     {
     }
 
-    protected BaseContext(string connectionString)
+    protected BaseContext(string? connectionString)
     {
         _connectionString = connectionString;
     }
