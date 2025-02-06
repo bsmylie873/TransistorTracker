@@ -35,15 +35,19 @@ public class PartsController : TransistorTrackerBaseController
     }
 
     [HttpPost]
-    public ActionResult CreatePart([FromBody] CreatePartViewModel part)
+    public async Task<ActionResult> CreatePart([FromBody] CreatePartViewModel part)
     {
+        var badRequest = await Validate(part);
+        if (badRequest != null) return badRequest;
         _service.CreatePart(_mapper.Map<CreatePartDto>(part));
         return Created();
     }
 
     [HttpPut("{id}")]
-    public ActionResult UpdateDevice(int id, [FromBody] UpdatePartViewModel part)
+    public async Task<ActionResult> UpdateDevice(int id, [FromBody] UpdatePartViewModel part)
     {
+        var badRequest = await Validate(part);
+        if (badRequest != null) return badRequest;
         var updated = _service.UpdatePart(id, _mapper.Map<UpdatePartDto>(part));
         if (updated) return Ok();
         return NotFound($"Part with id {id} not found");

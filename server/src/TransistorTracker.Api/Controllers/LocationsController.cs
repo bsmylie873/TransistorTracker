@@ -36,15 +36,19 @@ public class LocationsController : TransistorTrackerBaseController
     }
 
     [HttpPost]
-    public ActionResult CreateLocation([FromBody] CreateLocationViewModel location)
+    public async Task<ActionResult> CreateLocation([FromBody] CreateLocationViewModel location)
     { 
+        var badRequest = await Validate(location);
+        if (badRequest != null) return badRequest;
         _service.CreateLocation(_mapper.Map<CreateLocationDto>(location));
         return Created();
     }
 
     [HttpPut("{id}")]
-    public ActionResult UpdateLocation(int id, [FromBody] UpdateLocationViewModel location)
+    public async Task<ActionResult> UpdateLocation(int id, [FromBody] UpdateLocationViewModel location)
     {
+        var badRequest = await Validate(location);
+        if (badRequest != null) return badRequest;
         var updated = _service.UpdateLocation(id, _mapper.Map<UpdateLocationDto>(location));
         if (updated) return Ok();
         return NotFound($"Location with id {id} not found");

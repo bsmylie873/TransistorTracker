@@ -35,16 +35,20 @@ public class SoftwareController : TransistorTrackerBaseController
     }
 
     [HttpPost]
-    public ActionResult CreateSoftware([FromBody] CreateSoftwareDto software)
+    public async Task<ActionResult> CreateSoftware([FromBody] CreateSoftwareViewModel software)
     {
-        _service.CreateSoftware(software);
+        var badRequest = await Validate(software);
+        if (badRequest != null) return badRequest;
+        _service.CreateSoftware(_mapper.Map<CreateSoftwareDto>(software));
         return Created();
     }
     
     [HttpPut("{id}")]
-    public ActionResult UpdateSoftware(int id, [FromBody] UpdateSoftwareDto software)
+    public async Task<ActionResult> UpdateSoftware(int id, [FromBody] UpdateSoftwareViewModel software)
     {
-        var updated = _service.UpdateSoftware(id, software);
+        var badRequest = await Validate(software);
+        if (badRequest != null) return badRequest;
+        var updated = _service.UpdateSoftware(id, _mapper.Map<UpdateSoftwareDto>(software));
         if (updated) return Ok();
         return NotFound($"Software with id {id} not found");
     }

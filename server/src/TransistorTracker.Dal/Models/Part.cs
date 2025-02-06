@@ -44,27 +44,27 @@ public partial class Part
     public int? DeviceId { get; set; }
 
     [Column("user_id")]
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
 
     [Column("location_id")]
     public int? LocationId { get; set; }
 
     [Column("category_id")]
-    public int? CategoryId { get; set; }
+    public int CategoryId { get; set; }
 
     [Column("condition_id")]
-    public int? ConditionId { get; set; }
+    public int ConditionId { get; set; }
 
     [Column("status_id")]
-    public int? StatusId { get; set; }
+    public int StatusId { get; set; }
 
     [ForeignKey("CategoryId")]
     [InverseProperty("Parts")]
-    public virtual PartsCategory? Category { get; set; }
+    public virtual PartsCategory Category { get; set; } = null!;
 
     [ForeignKey("ConditionId")]
     [InverseProperty("Parts")]
-    public virtual HardwareCondition? Condition { get; set; }
+    public virtual HardwareCondition Condition { get; set; } = null!;
 
     [ForeignKey("DeviceId")]
     [InverseProperty("Parts")]
@@ -82,9 +82,9 @@ public partial class Part
 
     [ForeignKey("StatusId")]
     [InverseProperty("Parts")]
-    public virtual HardwareStatus? Status { get; set; }
+    public virtual HardwareStatus Status { get; set; } = null!;
 
     [ForeignKey("UserId")]
     [InverseProperty("Parts")]
-    public virtual User? User { get; set; }
+    public virtual User User { get; set; } = null!;
 }

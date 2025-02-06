@@ -35,16 +35,20 @@ public class DevicesController : TransistorTrackerBaseController
     }
 
     [HttpPost]
-    public ActionResult CreateDevice([FromBody] CreateDeviceDto device)
+    public async Task<ActionResult> CreateDevice([FromBody] CreateDeviceViewModel device)
     {
-        _service.CreateDevice(device);
+        var badRequest = await Validate(device);
+        if (badRequest != null) return badRequest;
+        _service.CreateDevice(_mapper.Map<CreateDeviceDto>(device));
         return Created();
     }
 
     [HttpPut("{id}")]
-    public ActionResult UpdateDevice(int id, [FromBody] UpdateDeviceDto device)
+    public async Task<ActionResult> UpdateDevice(int id, [FromBody] UpdateDeviceViewModel device)
     {
-        var updated = _service.UpdateDevice(id, device);
+        var badRequest = await Validate(device);
+        if (badRequest != null) return badRequest;
+        var updated = _service.UpdateDevice(id, _mapper.Map<UpdateDeviceDto>(device));
         if (updated) return Ok();
         return NotFound($"Device with id {id} not found");
     }

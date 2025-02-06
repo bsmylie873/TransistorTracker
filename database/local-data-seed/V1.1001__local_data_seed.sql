@@ -12,17 +12,17 @@ INSERT INTO USERS (id, username, email, avatar, user_type_id) VALUES
 
 ALTER SEQUENCE users_id_seq RESTART WITH 11;
 
-INSERT INTO LOCATIONS (id, name, avatar, house_number, street, city, state, postal_code, country) VALUES
-(1, 'Headquarters', 'hq_avatar.png', '123', 'Main St', 'Metropolis', 'NY', '10001', 'USA'),
-(2, 'Branch Office', 'branch_avatar.png', '456', 'Second St', 'Gotham', 'NJ', '07001', 'USA'),
-(3, 'Warehouse', 'warehouse_avatar.png', '789', 'Third St', 'Star City', 'CA', '90001', 'USA'),
-(4, 'Remote Office', 'remote_avatar.png', '101', 'Fourth St', 'Central City', 'IL', '60001', 'USA'),
-(5, 'Data Center', 'datacenter_avatar.png', '202', 'Fifth St', 'Coast City', 'TX', '70001', 'USA'),
-(6, 'Research Lab', 'lab_avatar.png', '303', 'Sixth St', 'Blüdhaven', 'FL', '80001', 'USA'),
-(7, 'Support Center', 'support_avatar.png', '404', 'Seventh St', 'Fawcett City', 'OH', '90001', 'USA'),
-(8, 'Training Facility', 'training_avatar.png', '505', 'Eighth St', 'Keystone City', 'PA', '10002', 'USA'),
-(9, 'Sales Office', 'sales_avatar.png', '606', 'Ninth St', 'Opal City', 'GA', '20001', 'USA'),
-(10, 'Marketing Office', 'marketing_avatar.png', '707', 'Tenth St', 'Gateway City', 'WA', '30001', 'USA');
+INSERT INTO LOCATIONS (id, name, avatar, house_number, street, city, state, postal_code, country, user_id) VALUES
+(1, 'Headquarters', 'hq_avatar.png', '123', 'Main St', 'Metropolis', 'NY', '10001', 'USA', 1),
+(2, 'Branch Office', 'branch_avatar.png', '456', 'Second St', 'Gotham', 'NJ', '07001', 'USA', 2),
+(3, 'Warehouse', 'warehouse_avatar.png', '789', 'Third St', 'Star City', 'CA', '90001', 'USA', 3),
+(4, 'Remote Office', 'remote_avatar.png', '101', 'Fourth St', 'Central City', 'IL', '60001', 'USA', 4),
+(5, 'Data Center', 'datacenter_avatar.png', '202', 'Fifth St', 'Coast City', 'TX', '70001', 'USA', 1),
+(6, 'Research Lab', 'lab_avatar.png', '303', 'Sixth St', 'Blüdhaven', 'FL', '80001', 'USA', 5),
+(7, 'Support Center', 'support_avatar.png', '404', 'Seventh St', 'Fawcett City', 'OH', '90001', 'USA', 9),
+(8, 'Training Facility', 'training_avatar.png', '505', 'Eighth St', 'Keystone City', 'PA', '10002', 'USA', 10),
+(9, 'Sales Office', 'sales_avatar.png', '606', 'Ninth St', 'Opal City', 'GA', '20001', 'USA', 8),
+(10, 'Marketing Office', 'marketing_avatar.png', '707', 'Tenth St', 'Gateway City', 'WA', '30001', 'USA', 1);
 
 ALTER SEQUENCE locations_id_seq RESTART WITH 11;
 

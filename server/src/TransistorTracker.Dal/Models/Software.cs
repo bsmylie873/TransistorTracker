@@ -29,11 +29,11 @@ public partial class Software
     public DateOnly? ReleaseDate { get; set; }
 
     [Column("category_id")]
-    public int? CategoryId { get; set; }
+    public int CategoryId { get; set; }
 
     [ForeignKey("CategoryId")]
     [InverseProperty("Softwares")]
-    public virtual SoftwareCategory? Category { get; set; }
+    public virtual SoftwareCategory Category { get; set; } = null!;
 
     [InverseProperty("Software")]
     public virtual ICollection<SoftwareCompatibility> SoftwareCompatibilities { get; set; } = new List<SoftwareCompatibility>();

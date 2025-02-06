@@ -9,9 +9,9 @@ public class UpdatePartDto
     public string? Colour { get; set; }
     public DateOnly? ReleaseDate { get; set; }
     public int? DeviceId { get; set; }
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
     public int? LocationId { get; set; }
-    public int? CategoryId { get; set; }
-    public int? ConditionId { get; set; }
-    public int? StatusId { get; set; }
+    public int CategoryId { get; set; }
+    public int ConditionId { get; set; }
+    public int StatusId { get; set; }
 }

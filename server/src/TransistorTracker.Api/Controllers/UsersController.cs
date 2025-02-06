@@ -35,15 +35,19 @@ public class UsersController : TransistorTrackerBaseController
     }
     
     [HttpPost]
-    public ActionResult CreateUser([FromBody] CreateUserViewModel user)
+    public async Task<ActionResult> CreateUser([FromBody] CreateUserViewModel user)
     {
+        var badRequest = await Validate(user);
+        if (badRequest != null) return badRequest;
         _service.CreateUser(_mapper.Map<CreateUserDto>(user));
         return Created();
     }
     
     [HttpPut("{id}")]
-    public ActionResult UpdateUser(int id, [FromBody] UpdateUserViewModel user)
+    public async Task<ActionResult> UpdateUser(int id, [FromBody] UpdateUserViewModel user)
     {
+        var badRequest = await Validate(user);
+        if (badRequest != null) return badRequest;
         var updated = _service.UpdateUser(id, _mapper.Map<UpdateUserDto>(user));
         if (updated) return Ok();
         return NotFound($"User with id {id} not found");
