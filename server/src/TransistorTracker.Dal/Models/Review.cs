@@ -26,7 +26,7 @@ public partial class Review
     public DateTime? ModifiedDate { get; set; }
 
     [Column("user_id")]
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
 
     [Column("device_id")]
     public int? DeviceId { get; set; }
@@ -44,5 +44,5 @@ public partial class Review
 
     [ForeignKey("UserId")]
     [InverseProperty("Reviews")]
-    public virtual User? User { get; set; }
+    public virtual User User { get; set; } = null!;
 }

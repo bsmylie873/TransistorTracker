@@ -52,7 +52,7 @@ public partial class Location
     public DateTime? ModifiedDate { get; set; }
 
     [Column("user_id")]
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
 
     [InverseProperty("Location")]
     public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
@@ -62,5 +62,5 @@ public partial class Location
 
     [ForeignKey("UserId")]
     [InverseProperty("Locations")]
-    public virtual User? User { get; set; }
+    public virtual User User { get; set; } = null!;
 }

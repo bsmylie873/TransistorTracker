@@ -34,7 +34,7 @@ public partial class User
     public DateTime? ModifiedDate { get; set; }
 
     [Column("user_type_id")]
-    public int? UserTypeId { get; set; }
+    public int UserTypeId { get; set; }
 
     [InverseProperty("User")]
     public virtual ICollection<Device> Devices { get; set; } = new List<Device>();
@@ -50,5 +50,5 @@ public partial class User
 
     [ForeignKey("UserTypeId")]
     [InverseProperty("Users")]
-    public virtual UserType? UserType { get; set; }
+    public virtual UserType UserType { get; set; } = null!;
 }

@@ -10,7 +10,7 @@ CREATE TABLE USERS (
     avatar VARCHAR(255),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_date TIMESTAMP,
-    user_type_id INT,
+    user_type_id INT NOT NULL,
     FOREIGN KEY (user_type_id) REFERENCES USER_TYPES(id)
 );
 
@@ -26,7 +26,7 @@ CREATE TABLE LOCATIONS (
     country VARCHAR(255),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_date TIMESTAMP,
-    user_id INT,
+    user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES USERS(id)
 );
 
@@ -56,11 +56,11 @@ CREATE TABLE DEVICES (
     release_date DATE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_date TIMESTAMP,
-    user_id INT,
+    user_id INT NOT NULL,
     location_id INT,
-    condition_id INT,
-    status_id INT,
-    category_id INT,
+    condition_id INT NOT NULL,
+    status_id INT NOT NULL,
+    category_id INT NOT NULL,
     FOREIGN KEY (category_id) REFERENCES DEVICES_CATEGORIES(id),
     FOREIGN KEY (user_id) REFERENCES USERS(id),
     FOREIGN KEY (location_id) REFERENCES LOCATIONS(id),
@@ -84,11 +84,11 @@ CREATE TABLE PARTS (
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_date TIMESTAMP,
     device_id INT,
-    user_id INT,
+    user_id INT NOT NULL,
     location_id INT,
-    category_id INT,
-    condition_id INT,
-    status_id INT,
+    category_id INT NOT NULL,
+    condition_id INT NOT NULL,
+    status_id INT NOT NULL,
     FOREIGN KEY (device_id) REFERENCES DEVICES(id),
     FOREIGN KEY (user_id) REFERENCES USERS(id),
     FOREIGN KEY (location_id) REFERENCES LOCATIONS(id),
@@ -108,7 +108,7 @@ CREATE TABLE SOFTWARE (
     avatar VARCHAR(255),
     version VARCHAR(50),
     release_date DATE,
-    category_id INT,
+    category_id INT NOT NULL,
     FOREIGN KEY (category_id) REFERENCES SOFTWARE_CATEGORIES(id)
 );
 
@@ -118,7 +118,7 @@ CREATE TABLE REVIEWS (
     rating INT CHECK (rating >= 0 AND rating <= 10),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_date TIMESTAMP,
-    user_id INT,
+    user_id INT NOT NULL,
     device_id INT,
     part_id INT,
     FOREIGN KEY (user_id) REFERENCES USERS(id),
