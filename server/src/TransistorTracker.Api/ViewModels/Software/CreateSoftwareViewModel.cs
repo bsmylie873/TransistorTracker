@@ -1,9 +1,10 @@
 using FluentValidation;
+using TransistorTracker.Api.Validation;
 using TransistorTracker.Dal.Enums;
 
 namespace TransistorTracker.Api.ViewModels.Software;
 
-public class CreateSoftwareViewModel
+public class CreateSoftwareViewModel : IValidatable<CreateSoftwareViewModelValidator>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
@@ -11,6 +12,8 @@ public class CreateSoftwareViewModel
     public string? Version { get; set; }
     public DateOnly? ReleaseDate { get; set; }
     public int CategoryId { get; set; }
+    
+    public CreateSoftwareViewModelValidator RetrieveValidator() => new();
 }
 
 public class CreateSoftwareViewModelValidator : AbstractValidator<CreateSoftwareViewModel>

@@ -1,8 +1,9 @@
 using FluentValidation;
+using TransistorTracker.Api.Validation;
 
 namespace TransistorTracker.Api.ViewModels.Locations;
 
-public class UpdateLocationViewModel
+public class UpdateLocationViewModel : IValidatable<UpdateLocationViewModelValidator>
 {
     public string Name { get; set; } = null!;
     public string? Avatar { get; set; }
@@ -13,6 +14,8 @@ public class UpdateLocationViewModel
     public string? PostalCode { get; set; }
     public string? Country { get; set; }
     public int UserId { get; set; }
+    
+    public UpdateLocationViewModelValidator RetrieveValidator() => new();
 }
 
 public class UpdateLocationViewModelValidator : AbstractValidator<UpdateLocationViewModel>
@@ -55,6 +58,8 @@ public class UpdateLocationViewModelValidator : AbstractValidator<UpdateLocation
             .WithMessage("Country must be between 3 and 10 characters long.");
         
         RuleFor(x => x.UserId)
+            .GreaterThan(0)
+            .WithMessage("UserId must be greater than 0.")
             .NotNull()
             .WithMessage("UserId must not be null.");
     }

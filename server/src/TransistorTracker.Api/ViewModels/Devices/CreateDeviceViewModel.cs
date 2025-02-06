@@ -1,9 +1,10 @@
 using FluentValidation;
+using TransistorTracker.Api.Validation;
 using TransistorTracker.Dal.Enums;
 
 namespace TransistorTracker.Api.ViewModels.Devices;
 
-public class CreateDeviceViewModel
+public class CreateDeviceViewModel : IValidatable<CreateDeviceViewModelValidator>
 {
     public string Name { get; set; } = null!;
     public string? Avatar { get; set; }
@@ -17,6 +18,8 @@ public class CreateDeviceViewModel
     public int ConditionId { get; set; }
     public int StatusId { get; set; }
     public int CategoryId { get; set; }
+    
+    public CreateDeviceViewModelValidator RetrieveValidator() => new();
 }
 
 public class CreateDeviceViewModelValidator : AbstractValidator<CreateDeviceViewModel>
@@ -49,8 +52,10 @@ public class CreateDeviceViewModelValidator : AbstractValidator<CreateDeviceView
             .WithMessage("Release date must not be in the future.");
         
         RuleFor(x => x.UserId)
+            .GreaterThan(0)
+            .WithMessage("UserId must be greater than 0.")
             .NotNull()
-            .WithMessage("UserId should not be null.");
+            .WithMessage("UserId must not be null.");
         
         RuleFor(x => x.ConditionId)
             .Must(i => Enum.IsDefined(typeof(HardwareConditions), i))

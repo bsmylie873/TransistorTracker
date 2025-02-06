@@ -1,4 +1,3 @@
-using FluentValidation.AspNetCore;
 using TransistorTracker.Api;
 using TransistorTracker.Dal.Contexts;
 using TransistorTracker.Dal.Interfaces;
@@ -12,8 +11,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(config => config.AllowNullCollections = true, typeof(Program).Assembly,
     typeof(UserService).Assembly);
 builder.Services.AddSwaggerGen();
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddFluentValidationClientsideAdapters();
+
+
 builder.Services.AddScoped<ITransitorTrackerDatabase, TransistorTrackerContext>(_ =>
     new TransistorTrackerContext(EnvironmentVariables.DbConnectionString));
 builder.Services.AddScoped<IDeviceService, DeviceService>();

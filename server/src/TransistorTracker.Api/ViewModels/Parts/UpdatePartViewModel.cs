@@ -1,9 +1,10 @@
 using FluentValidation;
+using TransistorTracker.Api.Validation;
 using TransistorTracker.Dal.Enums;
 
 namespace TransistorTracker.Api.ViewModels.Parts;
 
-public class UpdatePartViewModel
+public class UpdatePartViewModel : IValidatable<UpdatePartViewModelValidator>
 {
     public string Name { get; set; } = null!;
     public string? Avatar { get; set; }
@@ -17,6 +18,8 @@ public class UpdatePartViewModel
     public int CategoryId { get; set; }
     public int ConditionId { get; set; }
     public int StatusId { get; set; }
+    
+    public UpdatePartViewModelValidator RetrieveValidator() => new();
 }
 
 public class UpdatePartViewModelValidator : AbstractValidator<UpdatePartViewModel>
@@ -49,8 +52,10 @@ public class UpdatePartViewModelValidator : AbstractValidator<UpdatePartViewMode
             .WithMessage("Release date must not be in the future.");
         
         RuleFor(x => x.UserId)
+            .GreaterThan(0)
+            .WithMessage("UserId must be greater than 0.")
             .NotNull()
-            .WithMessage("UserId should not be null.");
+            .WithMessage("UserId must not be null.");
         
         RuleFor(x => x.ConditionId)
             .Must(i => Enum.IsDefined(typeof(HardwareConditions), i))
