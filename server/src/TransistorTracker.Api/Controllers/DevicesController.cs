@@ -56,6 +56,7 @@ public class DevicesController : TransistorTrackerBaseController
     [HttpDelete("{id}")]
     public ActionResult DeleteDevice(int id)
     {
+        //this is a comment.
         var deleted = _service.DeleteDevice(id);
         if (deleted) return NoContent();
         return NotFound($"Device with id {id} not found");
