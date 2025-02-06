@@ -5,7 +5,7 @@ namespace TransistorTracker.Api.Extensions;
 [ExcludeFromCodeCoverage]
 public static class StringEnvironmentExtensions
 {
-    public static string GetValue(this string name, string defaultValue = null)
+    public static string GetValue(this string name, string? defaultValue = null)
     {
         return GetVariable(name) 
                ?? defaultValue

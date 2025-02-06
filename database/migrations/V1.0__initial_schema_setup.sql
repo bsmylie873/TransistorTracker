@@ -115,7 +115,7 @@ CREATE TABLE SOFTWARE (
 CREATE TABLE REVIEWS (
     id SERIAL CONSTRAINT reviews_id PRIMARY KEY,
     review_text TEXT,
-    rating INT CHECK (rating >= 0 AND rating <= 10),
+    rating INT NOT NULL CHECK (rating >= 0 AND rating <= 10),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_date TIMESTAMP,
     user_id INT NOT NULL,

@@ -10,7 +10,7 @@ public class TransistorTrackerContext : BaseContext, ITransitorTrackerDatabase
     {
     }
 
-    public TransistorTrackerContext(string connectionString) : base(connectionString)
+    public TransistorTrackerContext(string? connectionString) : base(connectionString)
     {
     }
     
