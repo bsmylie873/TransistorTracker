@@ -6,7 +6,6 @@ namespace TransistorTracker.Api.ViewModels.Software;
 
 public class UpdateSoftwareViewModel : IValidatable<UpdateSoftwareViewModelValidator>
 {
-    public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string? Avatar { get; set; }
     public string? Version { get; set; }

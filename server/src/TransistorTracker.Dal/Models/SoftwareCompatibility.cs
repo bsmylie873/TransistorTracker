@@ -26,10 +26,10 @@ public partial class SoftwareCompatibility : IModelTracking
     [Column("software_compatibility_level_id")]
     public int SoftwareCompatibilityLevelId { get; set; }
 
-    [Column("created_date", TypeName = "timestamp without time zone")]
+    [Column("created_date")]
     public DateTime CreatedDate { get; init; }
 
-    [Column("modified_date", TypeName = "timestamp without time zone")]
+    [Column("modified_date")]
     public DateTime? ModifiedDate { get; set; }
 
     [ForeignKey("DeviceId")]

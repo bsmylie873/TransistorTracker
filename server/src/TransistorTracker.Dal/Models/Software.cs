@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using TransistorTracker.Dal.Auditing;
 
 namespace TransistorTracker.Dal.Models;
 
 [Table("software")]
-public partial class Software
+public partial class Software : IModelTracking
 {
     [Key]
     [Column("id")]
@@ -27,6 +28,12 @@ public partial class Software
 
     [Column("release_date")]
     public DateOnly? ReleaseDate { get; set; }
+
+    [Column("created_date")]
+    public DateTime CreatedDate { get; init; }
+
+    [Column("modified_date")]
+    public DateTime? ModifiedDate { get; set; }
 
     [Column("category_id")]
     public int CategoryId { get; set; }

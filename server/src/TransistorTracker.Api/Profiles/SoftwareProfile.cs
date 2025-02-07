@@ -15,11 +15,14 @@ public class SoftwareProfile : Profile
     private void ConfigureDtoToViewModel()
     {
         CreateMap<SoftwareDto, SoftwareViewModel>();
+        CreateMap<SoftwareCompatibilityDto, SoftwareCompatibilityViewModel>();
     }
 
     private void ConfigureCreateModelToDto()
     {
         CreateMap<CreateSoftwareViewModel, CreateSoftwareDto>();
+        CreateMap<CreateSoftwareCompatibilityViewModel, CreateSoftwareCompatibilityDto>();
         CreateMap<UpdateSoftwareViewModel, UpdateSoftwareDto>();
+        CreateMap<UpdateSoftwareCompatibilityViewModel, UpdateSoftwareCompatibilityDto>();
     }
 }
