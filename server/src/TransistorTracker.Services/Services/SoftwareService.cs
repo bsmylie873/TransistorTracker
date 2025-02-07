@@ -47,13 +47,13 @@ public class SoftwareService : ISoftwareService
         return software == null ? null : _mapper.Map<SoftwareDto>(software);
     }
     
-    public SoftwareCompatibilityDto GetSoftwareCompatibilityById(int id)
+    public SoftwareCompatibilityDto? GetSoftwareCompatibilityById(int id)
     {
         var softwareCompatibility = _database
             .Get<SoftwareCompatibility>()
             .FirstOrDefault(new SoftwareCompatibilityByIdSpec(id));
 
-        return _mapper.Map<SoftwareCompatibilityDto>(softwareCompatibility);
+        return softwareCompatibility == null ? null : _mapper.Map<SoftwareCompatibilityDto>(softwareCompatibility);
     }
 
     public void CreateSoftware(CreateSoftwareDto software)
