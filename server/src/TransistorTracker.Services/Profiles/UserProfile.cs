@@ -20,8 +20,8 @@ public class UserProfile : Profile
     private void ConfigureDtoToDomainModel()
     {
         CreateMap<CreateUserDto, User>()
-            .ForMember(d => d.CreatedDate, opt => opt.MapFrom(_ => DateTime.Now));
+            .ForMember(d => d.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
         CreateMap<UpdateUserDto, User>()
-            .ForMember(d => d.ModifiedDate, opt => opt.MapFrom(_ => DateTime.Now));
+            .ForMember(d => d.ModifiedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
     }
 }

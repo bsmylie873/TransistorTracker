@@ -20,8 +20,8 @@ public class PartProfile : Profile
     private void ConfigureDtoToDomainModel()
     {
         CreateMap<CreatePartDto, Part>()
-            .ForMember(d => d.CreatedDate, opt => opt.MapFrom(_ => DateTime.Now));
+            .ForMember(d => d.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
         CreateMap<UpdatePartDto, Part>()
-            .ForMember(d => d.ModifiedDate, opt => opt.MapFrom(_ => DateTime.Now));
+            .ForMember(d => d.ModifiedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
     }
 }
