@@ -15,5 +15,10 @@ CREATE TABLE SOFTWARE_COMPATIBILITIES (
     FOREIGN KEY (software_id) REFERENCES SOFTWARE(id),
     FOREIGN KEY (part_id) REFERENCES PARTS(id),
     FOREIGN KEY (device_id) REFERENCES DEVICES(id),
-    FOREIGN KEY (software_compatibility_level_id) REFERENCES SOFTWARE_COMPATIBILITY_LEVELS(id)
+    FOREIGN KEY (software_compatibility_level_id) REFERENCES SOFTWARE_COMPATIBILITY_LEVELS(id),
+    FOREIGN KEY (software_compatibility_level_id) REFERENCES SOFTWARE_COMPATIBILITY_LEVELS(id),
+    CONSTRAINT chk_part_or_device CHECK (
+        (part_id IS NOT NULL AND device_id IS NULL) OR
+        (part_id IS NULL AND device_id IS NOT NULL)
+    )
 );
