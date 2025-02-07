@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using TransistorTracker.Dal.Auditing;
 
 namespace TransistorTracker.Dal.Models;
 
 [Table("users")]
 [Microsoft.EntityFrameworkCore.Index("Email", Name = "users_email_key", IsUnique = true)]
 [Microsoft.EntityFrameworkCore.Index("Username", Name = "users_username_key", IsUnique = true)]
-public partial class User
+public partial class User : IModelTracking
 {
     [Key]
     [Column("id")]
@@ -28,7 +29,7 @@ public partial class User
     public string? Avatar { get; set; }
 
     [Column("created_date", TypeName = "timestamp without time zone")]
-    public DateTime? CreatedDate { get; set; }
+    public DateTime CreatedDate { get; init; }
 
     [Column("modified_date", TypeName = "timestamp without time zone")]
     public DateTime? ModifiedDate { get; set; }

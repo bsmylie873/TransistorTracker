@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using TransistorTracker.Dal.Auditing;
 
 namespace TransistorTracker.Dal.Models;
 
 [Table("software_compatibilities")]
-public partial class SoftwareCompatibility
+public partial class SoftwareCompatibility : IModelTracking
 {
     [Key]
     [Column("id")]
@@ -24,6 +25,12 @@ public partial class SoftwareCompatibility
 
     [Column("software_compatibility_level_id")]
     public int SoftwareCompatibilityLevelId { get; set; }
+
+    [Column("created_date", TypeName = "timestamp without time zone")]
+    public DateTime CreatedDate { get; init; }
+
+    [Column("modified_date", TypeName = "timestamp without time zone")]
+    public DateTime? ModifiedDate { get; set; }
 
     [ForeignKey("DeviceId")]
     [InverseProperty("SoftwareCompatibilities")]

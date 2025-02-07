@@ -19,7 +19,9 @@ public class ReviewProfile : Profile
 
     private void ConfigureDtoToDomainModel()
     {
-        CreateMap<CreateReviewDto, Review>();
-        CreateMap<UpdateReviewDto, Review>();
+        CreateMap<CreateReviewDto, Review>()
+            .ForMember(d => d.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
+        CreateMap<UpdateReviewDto, Review>()
+            .ForMember(d => d.ModifiedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
     }
 }
