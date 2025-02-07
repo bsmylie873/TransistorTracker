@@ -19,7 +19,9 @@ public class LocationProfile : Profile
 
     private void ConfigureDtoToDomainModel()
     {
-        CreateMap<CreateLocationDto, Location>();
-        CreateMap<UpdateLocationDto, Location>();
+        CreateMap<CreateLocationDto, Location>()
+            .ForMember(d => d.CreatedDate, opt => opt.MapFrom(_ => DateTime.Now));
+        CreateMap<UpdateLocationDto, Location>()
+            .ForMember(d => d.ModifiedDate, opt => opt.MapFrom(_ => DateTime.Now));
     }
 }

@@ -19,7 +19,9 @@ public class DeviceProfile : Profile
 
     private void ConfigureDtoToDomainModel()
     {
-        CreateMap<CreateDeviceDto, Device>();
-        CreateMap<UpdateDeviceDto, Device>();
+        CreateMap<CreateDeviceDto, Device>()
+            .ForMember(d => d.CreatedDate, opt => opt.MapFrom(_ => DateTime.Now));
+        CreateMap<UpdateDeviceDto, Device>()
+            .ForMember(d => d.ModifiedDate, opt => opt.MapFrom(_ => DateTime.Now));
     }
 }

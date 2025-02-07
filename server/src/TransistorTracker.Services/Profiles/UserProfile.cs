@@ -19,7 +19,9 @@ public class UserProfile : Profile
 
     private void ConfigureDtoToDomainModel()
     {
-        CreateMap<CreateUserDto, User>();
-        CreateMap<UpdateUserDto, User>();
+        CreateMap<CreateUserDto, User>()
+            .ForMember(d => d.CreatedDate, opt => opt.MapFrom(_ => DateTime.Now));
+        CreateMap<UpdateUserDto, User>()
+            .ForMember(d => d.ModifiedDate, opt => opt.MapFrom(_ => DateTime.Now));
     }
 }

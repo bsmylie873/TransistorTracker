@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using TransistorTracker.Dal.Auditing;
 
 namespace TransistorTracker.Dal.Models;
 
 [Table("devices")]
-public partial class Device
+public partial class Device : IModelTracking
 {
     [Key]
     [Column("id")]
@@ -39,7 +40,7 @@ public partial class Device
     public DateOnly? ReleaseDate { get; set; }
 
     [Column("created_date", TypeName = "timestamp without time zone")]
-    public DateTime? CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; }
 
     [Column("modified_date", TypeName = "timestamp without time zone")]
     public DateTime? ModifiedDate { get; set; }

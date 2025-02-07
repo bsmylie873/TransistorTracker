@@ -19,7 +19,9 @@ public class PartProfile : Profile
     
     private void ConfigureDtoToDomainModel()
     {
-        CreateMap<CreatePartDto, Part>();
-        CreateMap<UpdatePartDto, Part>();
+        CreateMap<CreatePartDto, Part>()
+            .ForMember(d => d.CreatedDate, opt => opt.MapFrom(_ => DateTime.Now));
+        CreateMap<UpdatePartDto, Part>()
+            .ForMember(d => d.ModifiedDate, opt => opt.MapFrom(_ => DateTime.Now));
     }
 }

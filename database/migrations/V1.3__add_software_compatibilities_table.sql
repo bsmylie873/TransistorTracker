@@ -10,6 +10,8 @@ CREATE TABLE SOFTWARE_COMPATIBILITIES (
     part_id INT,
     device_id INT,
     software_compatibility_level_id INT NOT NULL,
+    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP,
     FOREIGN KEY (software_id) REFERENCES SOFTWARE(id),
     FOREIGN KEY (part_id) REFERENCES PARTS(id),
     FOREIGN KEY (device_id) REFERENCES DEVICES(id),

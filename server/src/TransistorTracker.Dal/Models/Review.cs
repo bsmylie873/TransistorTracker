@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using TransistorTracker.Dal.Auditing;
 
 namespace TransistorTracker.Dal.Models;
 
 [Table("reviews")]
-public partial class Review
+public partial class Review : IModelTracking
 {
     [Key]
     [Column("id")]
@@ -17,10 +18,10 @@ public partial class Review
     public string? ReviewText { get; set; }
 
     [Column("rating")]
-    public int? Rating { get; set; }
+    public int Rating { get; set; }
 
     [Column("created_date", TypeName = "timestamp without time zone")]
-    public DateTime? CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; }
 
     [Column("modified_date", TypeName = "timestamp without time zone")]
     public DateTime? ModifiedDate { get; set; }
