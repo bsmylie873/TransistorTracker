@@ -1,7 +1,9 @@
 using AutoMapper;
+using TransistorTracker.Dal.Extensions;
 using TransistorTracker.Dal.Interfaces;
 using TransistorTracker.Dal.Models;
 using TransistorTracker.Dal.Specifications.Users;
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Users;
 using TransistorTracker.Server.Interfaces;
 using Unosquare.EntityFramework.Specification.Common.Extensions;
@@ -12,39 +14,45 @@ public class UserService : IUserService
 {
     private readonly ITransitorTrackerDatabase _database;
     private readonly IMapper _mapper;
+    private readonly IPaginationService _paginationService;
 
-    public UserService(ITransitorTrackerDatabase database, IMapper mapper)
+    public UserService(ITransitorTrackerDatabase database, IMapper mapper, IPaginationService paginationService)
     {
-        (_database, _mapper) = (database, mapper);
+        (_database, _mapper, _paginationService) = (database, mapper, paginationService);
     }
     
-    public IList<UserDto> GetAllUsers()
+    public async Task<PaginatedDto<UserDto>> GetAllUsers(PaginationDto pagination)
     {
+        var (pageSize, pageNumber, searchQuery, sortBy, ascending) = pagination;
+        
         var userQuery = _database
-            .Get<User>();
+            .Get<User>()
+            .Where(new UsersBySearchSpec(searchQuery));
 
-        return _mapper
+        var users = _mapper
             .ProjectTo<UserDto>(userQuery)
-            .ToList();
+            .OrderBy(sortBy, ascending);
+        
+        return await _paginationService.CreatePaginatedResponseAsync(users, pageSize, pageNumber);
     }
 
-    public UserDto? GetUserById(int id)
+    public async Task<UserDto?> GetUserById(int id)
     {
         var user = _database
             .Get<User>()
             .FirstOrDefault(new UserByIdSpec(id));
 
-        return _mapper.Map<UserDto>(user) ?? null;
+        return await Task.FromResult(_mapper.Map<UserDto>(user) ?? null);
     }
 
-    public void CreateUser(CreateUserDto user)
+    public async Task CreateUser(CreateUserDto user)
     {
         var newAccount = _mapper.Map<User>(user);
         _database.Add(newAccount);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
     }
 
-    public bool UpdateUser(int id, UpdateUserDto user)
+    public async Task<bool> UpdateUser(int id, UpdateUserDto user)
     {
         var currentUser = _database
             .Get<User>()
@@ -53,11 +61,11 @@ public class UserService : IUserService
         if (currentUser == null) return false;
 
         _mapper.Map(user, currentUser);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return true;
     }
 
-    public bool DeleteUser(int id)
+    public async Task<bool> DeleteUser(int id)
     {
         var currentUser = _database
             .Get<User>()
@@ -66,7 +74,7 @@ public class UserService : IUserService
         if (currentUser == null) return false;
 
         _database.Delete(currentUser);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return true;
     }
 }

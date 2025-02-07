@@ -1,5 +1,7 @@
 using AutoMapper;
+using TransistorTracker.Api.ViewModels.Pagination;
 using TransistorTracker.Api.ViewModels.Parts;
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Parts;
 
 namespace TransistorTracker.Api.Profiles;
@@ -10,6 +12,7 @@ public class PartProfile : Profile
     {
         ConfigureDtoToViewModel();
         ConfigureCreateModelToDto();
+        ConfigurePaginateMapping();
     }
     
     private void ConfigureDtoToViewModel()
@@ -21,5 +24,10 @@ public class PartProfile : Profile
     {
         CreateMap<CreatePartViewModel, CreatePartDto>();
         CreateMap<UpdatePartViewModel, UpdatePartDto>();
+    }
+    
+    private void ConfigurePaginateMapping()
+    {
+        CreateMap<PaginatedDto<PartDto>, PaginatedViewModel<PartViewModel>>();
     }
 }

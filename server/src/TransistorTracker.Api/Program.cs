@@ -2,6 +2,7 @@ using TransistorTracker.Api;
 using TransistorTracker.Dal.Contexts;
 using TransistorTracker.Dal.Interfaces;
 using TransistorTracker.Server.Interfaces;
+using TransistorTracker.Server.Pagination;
 using TransistorTracker.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ builder.Services.AddScoped<ITransitorTrackerDatabase, TransistorTrackerContext>(
     new TransistorTrackerContext(EnvironmentVariables.DbConnectionString));
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<IPaginationService, PaginationService>();
 builder.Services.AddScoped<IPartService, PartService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ISoftwareService, SoftwareService>();

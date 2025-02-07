@@ -1,7 +1,9 @@
 using AutoMapper;
+using TransistorTracker.Dal.Extensions;
 using TransistorTracker.Dal.Interfaces;
 using TransistorTracker.Dal.Models;
 using TransistorTracker.Dal.Specifications.Software;
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Software;
 using TransistorTracker.Server.Interfaces;
 using Unosquare.EntityFramework.Specification.Common.Extensions;
@@ -12,65 +14,76 @@ public class SoftwareService : ISoftwareService
 {
     private readonly ITransitorTrackerDatabase _database;
     private readonly IMapper _mapper;
+    private readonly IPaginationService _paginationService;
 
-    public SoftwareService(ITransitorTrackerDatabase database, IMapper mapper)
+    public SoftwareService(ITransitorTrackerDatabase database, IMapper mapper, IPaginationService service)
     {
-        (_database, _mapper) = (database, mapper);
+        (_database, _mapper, _paginationService) = (database, mapper, service);
     }
     
-    public IList<SoftwareDto> GetAllSoftware()
+    public async Task<PaginatedDto<SoftwareDto>> GetAllSoftware(PaginationDto pagination)
     {
+        var (pageSize, pageNumber, searchQuery, sortBy, ascending) = pagination;
+        
         var userQuery = _database
-            .Get<Software>();
+            .Get<Software>()
+            .Where(new SoftwareBySearchSpec(searchQuery));
 
-        return _mapper
+        var software = _mapper
             .ProjectTo<SoftwareDto>(userQuery)
-            .ToList();
+            .OrderBy(sortBy, ascending);
+        
+        return await _paginationService.CreatePaginatedResponseAsync(software, pageSize, pageNumber);
     }
     
-    public IList<SoftwareCompatibilityDto> GetAllSoftwareCompatibilities()
+    public async Task<PaginatedDto<SoftwareCompatibilityDto>> GetAllSoftwareCompatibilities(PaginationDto pagination)
     {
-        var softwareCompatibilities = _database
-            .Get<SoftwareCompatibility>();
+        var (pageSize, pageNumber, searchQuery, sortBy, ascending) = pagination;
+        
+        var softwareCompatibilityQuery = _database
+            .Get<SoftwareCompatibility>()
+            .Where(new SoftwareCompatibilitiesBySearchSpec(searchQuery));
 
-        return _mapper
-            .ProjectTo<SoftwareCompatibilityDto>(softwareCompatibilities)
-            .ToList();
+        var softwareCompatibilities = _mapper
+            .ProjectTo<SoftwareCompatibilityDto>(softwareCompatibilityQuery)
+            .OrderBy(sortBy, ascending);
+        
+        return await _paginationService.CreatePaginatedResponseAsync(softwareCompatibilities, pageSize, pageNumber);
     }
 
-    public SoftwareDto? GetSoftwareById(int id)
+    public async Task<SoftwareDto?> GetSoftwareById(int id)
     {
         var software = _database
             .Get<Software>()
             .FirstOrDefault(new SoftwareByIdSpec(id));
         
-        return software == null ? null : _mapper.Map<SoftwareDto>(software);
+        return await Task.FromResult(software == null ? null : _mapper.Map<SoftwareDto>(software));
     }
     
-    public SoftwareCompatibilityDto? GetSoftwareCompatibilityById(int id)
+    public Task<SoftwareCompatibilityDto?> GetSoftwareCompatibilityById(int id)
     {
         var softwareCompatibility = _database
             .Get<SoftwareCompatibility>()
             .FirstOrDefault(new SoftwareCompatibilityByIdSpec(id));
 
-        return softwareCompatibility == null ? null : _mapper.Map<SoftwareCompatibilityDto>(softwareCompatibility);
+        return Task.FromResult(softwareCompatibility == null ? null : _mapper.Map<SoftwareCompatibilityDto>(softwareCompatibility));
     }
 
-    public void CreateSoftware(CreateSoftwareDto software)
+    public async Task CreateSoftware(CreateSoftwareDto software)
     {
         var newSoftware = _mapper.Map<Software>(software);
         _database.Add(newSoftware);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
     }
     
-    public void CreateSoftwareCompatibility(CreateSoftwareCompatibilityDto softwareCompatibility)
+    public async Task CreateSoftwareCompatibility(CreateSoftwareCompatibilityDto softwareCompatibility)
     {
         var newSoftwareCompatibility = _mapper.Map<SoftwareCompatibility>(softwareCompatibility);
         _database.Add(newSoftwareCompatibility);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
     }
 
-    public bool UpdateSoftware(int id, UpdateSoftwareDto software)
+    public async Task<bool> UpdateSoftware(int id, UpdateSoftwareDto software)
     {
         var currentSoftware = _database
             .Get<Software>()
@@ -79,11 +92,11 @@ public class SoftwareService : ISoftwareService
         if (currentSoftware == null) return false;
 
         _mapper.Map(software, currentSoftware);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return true;
     }
     
-    public bool UpdateSoftwareCompatibility(int id, UpdateSoftwareCompatibilityDto softwareCompatibility)
+    public async Task<bool> UpdateSoftwareCompatibility(int id, UpdateSoftwareCompatibilityDto softwareCompatibility)
     {
         var currentSoftwareCompatibility = _database
             .Get<SoftwareCompatibility>()
@@ -92,11 +105,11 @@ public class SoftwareService : ISoftwareService
         if (currentSoftwareCompatibility == null) return false;
 
         _mapper.Map(softwareCompatibility, currentSoftwareCompatibility);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return true;
     }
 
-    public bool DeleteSoftware(int id)
+    public async Task<bool> DeleteSoftware(int id)
     {
         var software = _database
             .Get<Software>()
@@ -105,11 +118,11 @@ public class SoftwareService : ISoftwareService
         if (software == null) return false;
 
         _database.Delete(software);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return true;
     }
     
-    public bool DeleteSoftwareCompatibility(int id)
+    public async Task<bool> DeleteSoftwareCompatibility(int id)
     {
         var softwareCompatibility = _database
             .Get<SoftwareCompatibility>()
@@ -118,7 +131,7 @@ public class SoftwareService : ISoftwareService
         if (softwareCompatibility == null) return false;
 
         _database.Delete(softwareCompatibility);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return true;
     }
 }

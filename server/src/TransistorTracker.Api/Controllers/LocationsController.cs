@@ -3,8 +3,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TransistorTracker.Api.Controllers.Base;
 using TransistorTracker.Api.ViewModels.Locations;
+using TransistorTracker.Api.ViewModels.Pagination;
 using TransistorTracker.Api.ViewModels.Software;
 using TransistorTracker.Server.DTOs.Locations;
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.Interfaces;
 
 namespace TransistorTracker.Api.Controllers;
@@ -22,16 +24,16 @@ public class LocationsController : TransistorTrackerBaseController
     }
     
     [HttpGet]
-    public ActionResult<IList<LocationViewModel>> GetLocations()
+    public async Task<ActionResult> GetLocations([FromQuery] PaginationDto pagination)
     {
-        var locations = _service.GetAllLocations();
-        return OkOrNoListContent((IList)_mapper.Map<IList<LocationViewModel>>(locations));
+        var locations = await _service.GetAllLocations(pagination);
+        return OkOrNoContent(_mapper.Map<PaginatedViewModel<LocationViewModel>>(locations));
     }
     
     [HttpGet("{id}")]
-    public ActionResult<LocationViewModel> GetLocationById(int id)
+    public async Task<ActionResult> GetLocationById(int id)
     {
-        var location = _service.GetLocationById(id);
+        var location = await _service.GetLocationById(id);
         return OkOrNoNotFound(_mapper.Map<LocationViewModel>(location));
     }
 
@@ -40,7 +42,7 @@ public class LocationsController : TransistorTrackerBaseController
     { 
         var badRequest = await Validate(location);
         if (badRequest != null) return badRequest;
-        _service.CreateLocation(_mapper.Map<CreateLocationDto>(location));
+        await _service.CreateLocation(_mapper.Map<CreateLocationDto>(location));
         return Created();
     }
 
@@ -50,7 +52,7 @@ public class LocationsController : TransistorTrackerBaseController
         var badRequest = await Validate(location);
         if (badRequest != null) return badRequest;
         var updated = _service.UpdateLocation(id, _mapper.Map<UpdateLocationDto>(location));
-        if (updated) return Ok();
+        if (updated.Result) return Ok();
         return NotFound($"Location with id {id} not found");
     }
 
@@ -58,7 +60,7 @@ public class LocationsController : TransistorTrackerBaseController
     public ActionResult DeleteLocation(int id)
     {
         var deleted = _service.DeleteLocation(id);
-        if (deleted) return NoContent();
+        if (deleted.Result) return NoContent();
         return NotFound($"Location with id {id} not found");
     }
 }

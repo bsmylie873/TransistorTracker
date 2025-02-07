@@ -1,7 +1,9 @@
 using AutoMapper;
+using TransistorTracker.Dal.Extensions;
 using TransistorTracker.Dal.Interfaces;
 using TransistorTracker.Dal.Models;
 using TransistorTracker.Dal.Specifications.Parts;
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Parts;
 using TransistorTracker.Server.Interfaces;
 using Unosquare.EntityFramework.Specification.Common.Extensions;
@@ -12,39 +14,45 @@ public class PartService : IPartService
 {
     private readonly ITransitorTrackerDatabase _database;
     private readonly IMapper _mapper;
+    private readonly IPaginationService _paginationService;
 
-    public PartService(ITransitorTrackerDatabase database, IMapper mapper)
+    public PartService(ITransitorTrackerDatabase database, IMapper mapper, IPaginationService paginationService)
     {
-        (_database, _mapper) = (database, mapper);
+        (_database, _mapper, _paginationService) = (database, mapper, paginationService);
     }
     
-    public IList<PartDto> GetAllParts()
+    public async Task<PaginatedDto<PartDto>> GetAllParts(PaginationDto pagination)
     {
+        var (pageSize, pageNumber, searchQuery, sortBy, ascending) = pagination;
+        
         var partQuery = _database
-            .Get<Part>();
+            .Get<Part>()
+            .Where(new PartsBySearchSpec(searchQuery));
 
-        return _mapper
+        var parts = _mapper
             .ProjectTo<PartDto>(partQuery)
-            .ToList();
+            .OrderBy(sortBy, ascending);
+        
+        return await _paginationService.CreatePaginatedResponseAsync(parts, pageSize, pageNumber);
     }
 
-    public PartDto? GetPartById(int id)
+    public async Task<PartDto?> GetPartById(int id)
     {
         var part = _database
             .Get<Part>()
             .FirstOrDefault(new PartByIdSpec(id));
 
-        return _mapper.Map<PartDto>(part) ?? null;
+        return await Task.FromResult(_mapper.Map<PartDto>(part) ?? null);
     }
 
-    public void CreatePart(CreatePartDto part)
+    public async Task CreatePart(CreatePartDto part)
     {
         var newPart = _mapper.Map<Part>(part);
         _database.Add(newPart);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
     }
 
-    public bool UpdatePart(int id, UpdatePartDto part)
+    public async Task<bool> UpdatePart(int id, UpdatePartDto part)
     {
         var currentPart = _database
             .Get<Part>()
@@ -53,11 +61,11 @@ public class PartService : IPartService
         if (currentPart == null) return false;
 
         _mapper.Map(part, currentPart);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return true;
     }
 
-    public bool DeletePart(int id)
+    public async Task<bool> DeletePart(int id)
     {
         var part = _database
             .Get<Part>()
@@ -66,7 +74,7 @@ public class PartService : IPartService
         if (part == null) return false;
 
         _database.Delete(part);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return true;
     }
 }

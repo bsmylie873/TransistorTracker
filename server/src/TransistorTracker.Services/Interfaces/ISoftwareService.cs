@@ -1,17 +1,18 @@
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Software;
 
 namespace TransistorTracker.Server.Interfaces;
 
 public interface ISoftwareService
 {
-    IList<SoftwareDto> GetAllSoftware();
-    IList<SoftwareCompatibilityDto> GetAllSoftwareCompatibilities();
-    SoftwareDto? GetSoftwareById(int id);
-    SoftwareCompatibilityDto? GetSoftwareCompatibilityById(int id);
-    void CreateSoftware(CreateSoftwareDto software);
-    void CreateSoftwareCompatibility(CreateSoftwareCompatibilityDto softwareCompatibility);
-    bool UpdateSoftware(int id, UpdateSoftwareDto software);
-    bool UpdateSoftwareCompatibility(int id, UpdateSoftwareCompatibilityDto softwareCompatibility);
-    bool DeleteSoftware(int id);
-    bool DeleteSoftwareCompatibility(int id);
+    Task<PaginatedDto<SoftwareDto>> GetAllSoftware(PaginationDto pagination);
+    Task<PaginatedDto<SoftwareCompatibilityDto>> GetAllSoftwareCompatibilities(PaginationDto pagination);
+    Task<SoftwareDto?> GetSoftwareById(int id);
+    Task<SoftwareCompatibilityDto?> GetSoftwareCompatibilityById(int id);
+    Task CreateSoftware(CreateSoftwareDto software);
+    Task CreateSoftwareCompatibility(CreateSoftwareCompatibilityDto softwareCompatibility);
+    Task<bool> UpdateSoftware(int id, UpdateSoftwareDto software);
+    Task<bool> UpdateSoftwareCompatibility(int id, UpdateSoftwareCompatibilityDto softwareCompatibility);
+    Task<bool> DeleteSoftware(int id);
+    Task<bool> DeleteSoftwareCompatibility(int id);
 }
