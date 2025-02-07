@@ -39,10 +39,10 @@ public partial class Device : IModelTracking
     [Column("release_date")]
     public DateOnly? ReleaseDate { get; set; }
 
-    [Column("created_date", TypeName = "timestamp without time zone")]
+    [Column("created_date")]
     public DateTime CreatedDate { get; init; }
 
-    [Column("modified_date", TypeName = "timestamp without time zone")]
+    [Column("modified_date")]
     public DateTime? ModifiedDate { get; set; }
 
     [Column("user_id")]

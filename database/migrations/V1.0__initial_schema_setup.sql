@@ -8,8 +8,8 @@ CREATE TABLE USERS (
     username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
     avatar VARCHAR(255),
-    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP WITH TIME ZONE,
     user_type_id INT NOT NULL,
     FOREIGN KEY (user_type_id) REFERENCES USER_TYPES(id)
 );
@@ -24,8 +24,8 @@ CREATE TABLE LOCATIONS (
     state VARCHAR(255),
     postal_code VARCHAR(20),
     country VARCHAR(255),
-    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP WITH TIME ZONE,
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES USERS(id)
 );
@@ -54,8 +54,8 @@ CREATE TABLE DEVICES (
     colour VARCHAR(50),
     wireless BOOLEAN,
     release_date DATE,
-    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP WITH TIME ZONE,
     user_id INT NOT NULL,
     location_id INT,
     condition_id INT NOT NULL,
@@ -81,8 +81,8 @@ CREATE TABLE PARTS (
     wattage INT,
     colour VARCHAR(50),
     release_date DATE,
-    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP WITH TIME ZONE,
     device_id INT,
     user_id INT NOT NULL,
     location_id INT,
@@ -108,6 +108,8 @@ CREATE TABLE SOFTWARE (
     avatar VARCHAR(255),
     version VARCHAR(50),
     release_date DATE,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP WITH TIME ZONE,
     category_id INT NOT NULL,
     FOREIGN KEY (category_id) REFERENCES SOFTWARE_CATEGORIES(id)
 );
@@ -116,8 +118,8 @@ CREATE TABLE REVIEWS (
     id SERIAL CONSTRAINT reviews_id PRIMARY KEY,
     review_text TEXT,
     rating INT NOT NULL CHECK (rating >= 0 AND rating <= 10),
-    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modified_date TIMESTAMP,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP WITH TIME ZONE,
     user_id INT NOT NULL,
     device_id INT,
     part_id INT,

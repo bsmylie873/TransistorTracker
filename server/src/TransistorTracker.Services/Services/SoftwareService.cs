@@ -27,6 +27,16 @@ public class SoftwareService : ISoftwareService
             .ProjectTo<SoftwareDto>(userQuery)
             .ToList();
     }
+    
+    public IList<SoftwareCompatibilityDto> GetAllSoftwareCompatibilities()
+    {
+        var softwareCompatibilities = _database
+            .Get<SoftwareCompatibility>();
+
+        return _mapper
+            .ProjectTo<SoftwareCompatibilityDto>(softwareCompatibilities)
+            .ToList();
+    }
 
     public SoftwareDto? GetSoftwareById(int id)
     {
@@ -36,11 +46,27 @@ public class SoftwareService : ISoftwareService
         
         return software == null ? null : _mapper.Map<SoftwareDto>(software);
     }
+    
+    public SoftwareCompatibilityDto? GetSoftwareCompatibilityById(int id)
+    {
+        var softwareCompatibility = _database
+            .Get<SoftwareCompatibility>()
+            .FirstOrDefault(new SoftwareCompatibilityByIdSpec(id));
+
+        return softwareCompatibility == null ? null : _mapper.Map<SoftwareCompatibilityDto>(softwareCompatibility);
+    }
 
     public void CreateSoftware(CreateSoftwareDto software)
     {
         var newSoftware = _mapper.Map<Software>(software);
         _database.Add(newSoftware);
+        _database.SaveChanges();
+    }
+    
+    public void CreateSoftwareCompatibility(CreateSoftwareCompatibilityDto softwareCompatibility)
+    {
+        var newSoftwareCompatibility = _mapper.Map<SoftwareCompatibility>(softwareCompatibility);
+        _database.Add(newSoftwareCompatibility);
         _database.SaveChanges();
     }
 
@@ -56,6 +82,19 @@ public class SoftwareService : ISoftwareService
         _database.SaveChanges();
         return true;
     }
+    
+    public bool UpdateSoftwareCompatibility(int id, UpdateSoftwareCompatibilityDto softwareCompatibility)
+    {
+        var currentSoftwareCompatibility = _database
+            .Get<SoftwareCompatibility>()
+            .FirstOrDefault(new SoftwareCompatibilityByIdSpec(id));
+
+        if (currentSoftwareCompatibility == null) return false;
+
+        _mapper.Map(softwareCompatibility, currentSoftwareCompatibility);
+        _database.SaveChanges();
+        return true;
+    }
 
     public bool DeleteSoftware(int id)
     {
@@ -66,6 +105,19 @@ public class SoftwareService : ISoftwareService
         if (software == null) return false;
 
         _database.Delete(software);
+        _database.SaveChanges();
+        return true;
+    }
+    
+    public bool DeleteSoftwareCompatibility(int id)
+    {
+        var softwareCompatibility = _database
+            .Get<SoftwareCompatibility>()
+            .FirstOrDefault(new SoftwareCompatibilityByIdSpec(id));
+
+        if (softwareCompatibility == null) return false;
+
+        _database.Delete(softwareCompatibility);
         _database.SaveChanges();
         return true;
     }

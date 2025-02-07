@@ -109,6 +109,8 @@ erDiagram
         string avatar
         string version
         date release_date
+        timestamp created_date
+        timestamp modified_date
         int category_id FK
     }
     SOFTWARE_CATEGORIES {
@@ -122,6 +124,8 @@ erDiagram
     }
     SOFTWARE_COMPATIBILITIES {
         int id PK
+        timestamp created_date
+        timestamp modified_date
         int software_id FK
         int part_id FK
         int device_id FK

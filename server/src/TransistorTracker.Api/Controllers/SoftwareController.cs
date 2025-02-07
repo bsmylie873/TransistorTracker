@@ -27,11 +27,25 @@ public class SoftwareController : TransistorTrackerBaseController
         return OkOrNoListContent((IList)_mapper.Map<IList<SoftwareViewModel>>(software));
     }
     
+    [HttpGet("compatibilities")]
+    public ActionResult<IList<SoftwareCompatibilityDto>> GetSoftwareCompatibility()
+    {
+        var softwareCompatibilities = _service.GetAllSoftwareCompatibilities();
+        return OkOrNoListContent((IList)_mapper.Map<IList<SoftwareCompatibilityViewModel>>(softwareCompatibilities));
+    }
+    
     [HttpGet("{id}")]
     public ActionResult<SoftwareDto> GetSoftwareById(int id)
     {
         var software = _service.GetSoftwareById(id);
         return OkOrNoNotFound(_mapper.Map<SoftwareViewModel>(software));
+    }
+    
+    [HttpGet("compatibilities/{id}")]
+    public ActionResult<SoftwareCompatibilityDto> GetSoftwareCompatibilityById(int id)
+    {
+        var softwareCompatibility = _service.GetSoftwareCompatibilityById(id);
+        return OkOrNoNotFound(_mapper.Map<SoftwareCompatibilityViewModel>(softwareCompatibility));
     }
 
     [HttpPost]
@@ -40,6 +54,15 @@ public class SoftwareController : TransistorTrackerBaseController
         var badRequest = await Validate(software);
         if (badRequest != null) return badRequest;
         _service.CreateSoftware(_mapper.Map<CreateSoftwareDto>(software));
+        return Created();
+    }
+    
+    [HttpPost("compatibilities")]
+    public async Task<ActionResult> CreateSoftwareCompatibility([FromBody] CreateSoftwareCompatibilityViewModel softwareCompatibility)
+    {
+        var badRequest = await Validate(softwareCompatibility);
+        if (badRequest != null) return badRequest;
+        _service.CreateSoftwareCompatibility(_mapper.Map<CreateSoftwareCompatibilityDto>(softwareCompatibility));
         return Created();
     }
     
@@ -53,11 +76,29 @@ public class SoftwareController : TransistorTrackerBaseController
         return NotFound($"Software with id {id} not found");
     }
     
+    [HttpPut("compatibilities/{id}")]
+    public async Task<ActionResult> UpdateSoftwareCompatibility(int id, [FromBody] UpdateSoftwareCompatibilityViewModel softwareCompatibility)
+    {
+        var badRequest = await Validate(softwareCompatibility);
+        if (badRequest != null) return badRequest;
+        var updated = _service.UpdateSoftwareCompatibility(id, _mapper.Map<UpdateSoftwareCompatibilityDto>(softwareCompatibility));
+        if (updated) return Ok();
+        return NotFound($"Software compatibility with id {id} not found");
+    }
+    
     [HttpDelete("{id}")]
     public ActionResult DeleteSoftware(int id)
     {
         var deleted = _service.DeleteSoftware(id);
         if (deleted) return NoContent();
         return NotFound($"Software with id {id} not found");
+    }
+    
+    [HttpDelete("compatibilities/{id}")]
+    public ActionResult DeleteSoftwareCompatibility(int id)
+    {
+        var deleted = _service.DeleteSoftwareCompatibility(id);
+        if (deleted) return NoContent();
+        return NotFound($"Software compatibility with id {id} not found");
     }
 }
