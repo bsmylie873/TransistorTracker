@@ -73,8 +73,8 @@ public class SoftwareController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(software);
         if (badRequest != null) return badRequest;
-        var updated = _service.UpdateSoftware(id, _mapper.Map<UpdateSoftwareDto>(software));
-        if (updated.Result) return Ok();
+        var updated = await _service.UpdateSoftware(id, _mapper.Map<UpdateSoftwareDto>(software));
+        if (updated) return Ok();
         return NotFound($"Software with id {id} not found");
     }
     
@@ -83,24 +83,24 @@ public class SoftwareController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(softwareCompatibility);
         if (badRequest != null) return badRequest;
-        var updated = _service.UpdateSoftwareCompatibility(id, _mapper.Map<UpdateSoftwareCompatibilityDto>(softwareCompatibility));
-        if (updated.Result) return Ok();
+        var updated = await _service.UpdateSoftwareCompatibility(id, _mapper.Map<UpdateSoftwareCompatibilityDto>(softwareCompatibility));
+        if (updated) return Ok();
         return NotFound($"Software compatibility with id {id} not found");
     }
     
     [HttpDelete("{id}")]
-    public ActionResult DeleteSoftware(int id)
+    public async Task<ActionResult> DeleteSoftware(int id)
     {
-        var deleted = _service.DeleteSoftware(id);
-        if (deleted.Result) return NoContent();
+        var deleted = await _service.DeleteSoftware(id);
+        if (deleted) return NoContent();
         return NotFound($"Software with id {id} not found");
     }
     
     [HttpDelete("compatibilities/{id}")]
-    public ActionResult DeleteSoftwareCompatibility(int id)
+    public async Task<ActionResult> DeleteSoftwareCompatibility(int id)
     {
-        var deleted = _service.DeleteSoftwareCompatibility(id);
-        if (deleted.Result) return NoContent();
+        var deleted = await _service.DeleteSoftwareCompatibility(id);
+        if (deleted) return NoContent();
         return NotFound($"Software compatibility with id {id} not found");
     }
 }

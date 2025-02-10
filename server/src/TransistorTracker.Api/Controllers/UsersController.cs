@@ -50,16 +50,16 @@ public class UsersController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(user);
         if (badRequest != null) return badRequest;
-        var updated = _service.UpdateUser(id, _mapper.Map<UpdateUserDto>(user));
-        if (updated.Result) return Ok();
+        var updated = await _service.UpdateUser(id, _mapper.Map<UpdateUserDto>(user));
+        if (updated) return Ok();
         return NotFound($"User with id {id} not found");
     }
     
     [HttpDelete("{id}")]
-    public ActionResult DeleteUser(int id)
+    public async Task<ActionResult> DeleteUser(int id)
     {
-        var deleted = _service.DeleteUser(id);
-        if (deleted.Result) return NoContent();
+        var deleted = await _service.DeleteUser(id);
+        if (deleted) return NoContent();
         return NotFound($"User with id {id} not found");
     }
 }

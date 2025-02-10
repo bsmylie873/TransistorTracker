@@ -51,16 +51,16 @@ public class LocationsController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(location);
         if (badRequest != null) return badRequest;
-        var updated = _service.UpdateLocation(id, _mapper.Map<UpdateLocationDto>(location));
-        if (updated.Result) return Ok();
+        var updated = await _service.UpdateLocation(id, _mapper.Map<UpdateLocationDto>(location));
+        if (updated) return Ok();
         return NotFound($"Location with id {id} not found");
     }
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteLocation(int id)
+    public async Task<ActionResult> DeleteLocation(int id)
     {
-        var deleted = _service.DeleteLocation(id);
-        if (deleted.Result) return NoContent();
+        var deleted = await _service.DeleteLocation(id);
+        if (deleted) return NoContent();
         return NotFound($"Location with id {id} not found");
     }
 }

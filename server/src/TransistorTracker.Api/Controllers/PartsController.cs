@@ -50,16 +50,16 @@ public class PartsController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(part);
         if (badRequest != null) return badRequest;
-        var updated = _service.UpdatePart(id, _mapper.Map<UpdatePartDto>(part));
-        if (updated.Result) return Ok();
+        var updated = await _service.UpdatePart(id, _mapper.Map<UpdatePartDto>(part));
+        if (updated) return Ok();
         return NotFound($"Part with id {id} not found");
     }
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteDevice(int id)
+    public async Task<ActionResult> DeleteDevice(int id)
     {
-        var deleted = _service.DeletePart(id);
-        if (deleted.Result) return NoContent();
+        var deleted = await _service.DeletePart(id);
+        if (deleted) return NoContent();
         return NotFound($"Part with id {id} not found");
     }
 }

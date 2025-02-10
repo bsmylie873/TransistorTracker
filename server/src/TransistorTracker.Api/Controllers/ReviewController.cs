@@ -49,16 +49,16 @@ public class ReviewsController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(review);
         if (badRequest != null) return badRequest;
-        var updated = _service.UpdateReview(id, _mapper.Map<UpdateReviewDto>(review));
-        if (updated.Result) return Ok();
+        var updated = await _service.UpdateReview(id, _mapper.Map<UpdateReviewDto>(review));
+        if (updated) return Ok();
         return NotFound($"Review with id {id} not found");
     }
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteReview(int id)
+    public async Task<ActionResult> DeleteReview(int id)
     {
-        var deleted = _service.DeleteReview(id);
-        if (deleted.Result) return NoContent();
+        var deleted = await _service.DeleteReview(id);
+        if (deleted) return NoContent();
         return NotFound($"Review with id {id} not found");
     }
 }

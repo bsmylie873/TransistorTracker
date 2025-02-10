@@ -50,16 +50,16 @@ public class DevicesController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(device);
         if (badRequest != null) return badRequest;
-        var updated = _service.UpdateDevice(id, _mapper.Map<UpdateDeviceDto>(device));
-        if (updated.Result) return Ok();
+        var updated = await _service.UpdateDevice(id, _mapper.Map<UpdateDeviceDto>(device));
+        if (updated) return Ok();
         return NotFound($"Device with id {id} not found");
     }
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteDevice(int id)
+    public async Task<ActionResult> DeleteDevice(int id)
     {
-        var deleted = _service.DeleteDevice(id);
-        if (deleted.Result) return NoContent();
+        var deleted = await _service.DeleteDevice(id);
+        if (deleted) return NoContent();
         return NotFound($"Device with id {id} not found");
     }
 }
