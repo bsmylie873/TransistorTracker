@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TransistorTracker.Dal.Extensions;
 using TransistorTracker.Dal.Interfaces;
 using TransistorTracker.Dal.Models;
@@ -39,11 +40,11 @@ public class LocationService : ILocationService
 
     public async Task<LocationDto?> GetLocationById(int id)
     {
-        var location = _database
+        var location = await _database
             .Get<Location>()
-            .FirstOrDefault(new LocationByIdSpec(id));
+            .FirstOrDefaultAsync(new LocationByIdSpec(id));
 
-        return await Task.FromResult(_mapper.Map<LocationDto>(location) ?? null);
+        return _mapper.Map<LocationDto>(location) ?? null;
     }
 
     public async Task CreateLocation(CreateLocationDto location)

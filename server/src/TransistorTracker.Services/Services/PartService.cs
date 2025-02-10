@@ -7,6 +7,7 @@ using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Parts;
 using TransistorTracker.Server.Interfaces;
 using Unosquare.EntityFramework.Specification.Common.Extensions;
+using Unosquare.EntityFramework.Specification.EF6.Extensions;
 
 namespace TransistorTracker.Server.Services;
 
@@ -38,11 +39,11 @@ public class PartService : IPartService
 
     public async Task<PartDto?> GetPartById(int id)
     {
-        var part = _database
+        var part = await _database
             .Get<Part>()
-            .FirstOrDefault(new PartByIdSpec(id));
+            .FirstOrDefaultAsync(new PartByIdSpec(id));
 
-        return await Task.FromResult(_mapper.Map<PartDto>(part) ?? null);
+        return _mapper.Map<PartDto>(part) ?? null;
     }
 
     public async Task CreatePart(CreatePartDto part)

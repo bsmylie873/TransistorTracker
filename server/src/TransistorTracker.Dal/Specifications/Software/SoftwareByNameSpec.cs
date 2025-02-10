@@ -13,6 +13,6 @@ public class SoftwareByNameSpec : Specification<Models.Software>
     {
         if (string.IsNullOrEmpty(_name)) return ShowAll;
         
-        return x => x.Name.ToLower().StartsWith(_name);
+        return x => x.Name.StartsWith(_name, StringComparison.OrdinalIgnoreCase);
     }
 }

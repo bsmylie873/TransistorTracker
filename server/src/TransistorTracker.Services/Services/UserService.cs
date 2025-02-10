@@ -7,6 +7,7 @@ using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Users;
 using TransistorTracker.Server.Interfaces;
 using Unosquare.EntityFramework.Specification.Common.Extensions;
+using Unosquare.EntityFramework.Specification.EF6.Extensions;
 
 namespace TransistorTracker.Server.Services;
 
@@ -38,11 +39,11 @@ public class UserService : IUserService
 
     public async Task<UserDto?> GetUserById(int id)
     {
-        var user = _database
+        var user = await _database
             .Get<User>()
-            .FirstOrDefault(new UserByIdSpec(id));
+            .FirstOrDefaultAsync(new UserByIdSpec(id));
 
-        return await Task.FromResult(_mapper.Map<UserDto>(user) ?? null);
+        return _mapper.Map<UserDto>(user) ?? null;
     }
 
     public async Task CreateUser(CreateUserDto user)

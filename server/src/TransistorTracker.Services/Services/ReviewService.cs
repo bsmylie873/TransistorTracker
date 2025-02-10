@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TransistorTracker.Dal.Extensions;
 using TransistorTracker.Dal.Interfaces;
 using TransistorTracker.Dal.Models;
@@ -7,6 +8,7 @@ using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Reviews;
 using TransistorTracker.Server.Interfaces;
 using Unosquare.EntityFramework.Specification.Common.Extensions;
+using Unosquare.EntityFramework.Specification.EF6.Extensions;
 
 namespace TransistorTracker.Server.Services;
 
@@ -38,11 +40,11 @@ public class ReviewService : IReviewService
 
     public async Task<ReviewDto?> GetReviewById(int id)
     {
-        var review = _database
+        var review = await _database
             .Get<Review>()
-            .FirstOrDefault(new ReviewByIdSpec(id));
+            .FirstOrDefaultAsync(new ReviewByIdSpec(id));
 
-        return await Task.FromResult(_mapper.Map<ReviewDto>(review) ?? null);
+        return _mapper.Map<ReviewDto>(review) ?? null;
     }
 
     public async Task CreateReview(CreateReviewDto review)

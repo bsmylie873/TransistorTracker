@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TransistorTracker.Dal.Extensions;
 using TransistorTracker.Dal.Interfaces;
 using TransistorTracker.Dal.Models;
@@ -7,6 +8,7 @@ using TransistorTracker.Server.DTOs.Devices;
 using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.Interfaces;
 using Unosquare.EntityFramework.Specification.Common.Extensions;
+using Unosquare.EntityFramework.Specification.EF6.Extensions;
 
 namespace TransistorTracker.Server.Services;
 
@@ -38,11 +40,11 @@ public class DeviceService : IDeviceService
 
     public async Task<DeviceDto?> GetDeviceById(int id)
     {
-        var device = _database
+        var device = await _database
             .Get<Device>()
-            .FirstOrDefault(new DeviceByIdSpec(id));
+            .FirstOrDefaultAsync(new DeviceByIdSpec(id));
 
-        return await Task.FromResult(_mapper.Map<DeviceDto>(device) ?? null);
+        return _mapper.Map<DeviceDto>(device) ?? null;
     }
 
     public async Task CreateDevice(CreateDeviceDto device)

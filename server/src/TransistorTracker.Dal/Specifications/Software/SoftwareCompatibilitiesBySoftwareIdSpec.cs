@@ -12,7 +12,7 @@ public class SoftwareCompatibilitiesBySoftwareIdSpec : Specification<SoftwareCom
 
     public override Expression<Func<SoftwareCompatibility, bool>> BuildExpression()
     {
-        int.TryParse(_softwareId, out var softwareId);
+        if (string.IsNullOrEmpty(_softwareId) || !int.TryParse(_softwareId, out var softwareId)) return x => false;
         return x => x.SoftwareId == softwareId;
     }
 }

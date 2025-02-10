@@ -32,6 +32,6 @@ public class SoftwareProfile : Profile
     private void ConfigurePaginateMapping()
     {
         CreateMap<PaginatedDto<SoftwareDto>, PaginatedViewModel<SoftwareViewModel>>();
-        CreateMap<PaginatedDto<SoftwareCompatibilityDto>, PaginatedDto<SoftwareCompatibilityViewModel>>();
+        CreateMap<PaginatedDto<SoftwareCompatibilityDto>, PaginatedViewModel<SoftwareCompatibilityViewModel>>();
     }
 }

@@ -7,6 +7,7 @@ using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Software;
 using TransistorTracker.Server.Interfaces;
 using Unosquare.EntityFramework.Specification.Common.Extensions;
+using Unosquare.EntityFramework.Specification.EF6.Extensions;
 
 namespace TransistorTracker.Server.Services;
 
@@ -53,20 +54,20 @@ public class SoftwareService : ISoftwareService
 
     public async Task<SoftwareDto?> GetSoftwareById(int id)
     {
-        var software = _database
+        var software = await _database
             .Get<Software>()
-            .FirstOrDefault(new SoftwareByIdSpec(id));
+            .FirstOrDefaultAsync(new SoftwareByIdSpec(id));
         
-        return await Task.FromResult(software == null ? null : _mapper.Map<SoftwareDto>(software));
+        return _mapper.Map<SoftwareDto>(software) ?? null;
     }
     
-    public Task<SoftwareCompatibilityDto?> GetSoftwareCompatibilityById(int id)
+    public async Task<SoftwareCompatibilityDto?> GetSoftwareCompatibilityById(int id)
     {
-        var softwareCompatibility = _database
+        var softwareCompatibility = await _database
             .Get<SoftwareCompatibility>()
-            .FirstOrDefault(new SoftwareCompatibilityByIdSpec(id));
+            .FirstOrDefaultAsync(new SoftwareCompatibilityByIdSpec(id));
 
-        return Task.FromResult(softwareCompatibility == null ? null : _mapper.Map<SoftwareCompatibilityDto>(softwareCompatibility));
+        return _mapper.Map<SoftwareCompatibilityDto>(softwareCompatibility) ?? null;
     }
 
     public async Task CreateSoftware(CreateSoftwareDto software)
