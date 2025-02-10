@@ -1,10 +1,14 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using TransistorTracker.Dal.Extensions;
 using TransistorTracker.Dal.Interfaces;
 using TransistorTracker.Dal.Models;
 using TransistorTracker.Dal.Specifications.Reviews;
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Reviews;
 using TransistorTracker.Server.Interfaces;
 using Unosquare.EntityFramework.Specification.Common.Extensions;
+using Unosquare.EntityFramework.Specification.EF6.Extensions;
 
 namespace TransistorTracker.Server.Services;
 
@@ -12,39 +16,45 @@ public class ReviewService : IReviewService
 {
     private readonly ITransitorTrackerDatabase _database;
     private readonly IMapper _mapper;
+    private readonly IPaginationService _paginationService;
 
-    public ReviewService(ITransitorTrackerDatabase database, IMapper mapper)
+    public ReviewService(ITransitorTrackerDatabase database, IMapper mapper, IPaginationService paginationService)
     {
-        (_database, _mapper) = (database, mapper);
+        (_database, _mapper, _paginationService) = (database, mapper, paginationService);
     }
     
-    public IList<ReviewDto> GetAllReviews()
+    public async Task<PaginatedDto<ReviewDto>> GetAllReviews(PaginationDto pagination)
     {
-        var reviewQuery = _database
-            .Get<Review>();
+        var (pageSize, pageNumber, searchQuery, sortBy, ascending) = pagination;
 
-        return _mapper
+        var reviewQuery = _database
+            .Get<Review>()
+            .Where(new ReviewsBySearchSpec(searchQuery));
+
+        var reviews = _mapper
             .ProjectTo<ReviewDto>(reviewQuery)
-            .ToList();
+            .OrderBy(sortBy, ascending);
+        
+        return await _paginationService.CreatePaginatedResponseAsync(reviews, pageSize, pageNumber);
     }
 
-    public ReviewDto? GetReviewById(int id)
+    public async Task<ReviewDto?> GetReviewById(int id)
     {
-        var review = _database
+        var review = await _database
             .Get<Review>()
-            .FirstOrDefault(new ReviewByIdSpec(id));
+            .FirstOrDefaultAsync(new ReviewByIdSpec(id));
 
         return _mapper.Map<ReviewDto>(review) ?? null;
     }
 
-    public void CreateReview(CreateReviewDto review)
+    public async Task CreateReview(CreateReviewDto review)
     {
         var newReview = _mapper.Map<Review>(review);
         _database.Add(newReview);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
     }
 
-    public bool UpdateReview(int id, UpdateReviewDto review)
+    public async Task<bool> UpdateReview(int id, UpdateReviewDto review)
     {
         var currentReview = _database
             .Get<Review>()
@@ -53,20 +63,20 @@ public class ReviewService : IReviewService
         if (currentReview == null) return false;
 
         _mapper.Map(review, currentReview);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
         return true;
     }
 
-    public bool DeleteReview(int id)
+    public async Task<bool> DeleteReview(int id)
     {
         var review = _database
             .Get<Review>()
             .FirstOrDefault(new ReviewByIdSpec(id));
         
-        if (review == null) return false;
+        if (review == null) return await Task.FromResult(false);
         
         _database.Delete(review);
-        _database.SaveChanges();
-        return true;
+        await _database.SaveChangesAsync();
+        return await Task.FromResult(true);
     }
 }

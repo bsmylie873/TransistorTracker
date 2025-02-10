@@ -1,12 +1,13 @@
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Parts;
 
 namespace TransistorTracker.Server.Interfaces;
 
 public interface IPartService
 {
-    IList<PartDto> GetAllParts();
-    PartDto? GetPartById(int id);
-    void CreatePart(CreatePartDto part);
-    bool UpdatePart(int id, UpdatePartDto part);
-    bool DeletePart(int id);
+    Task<PaginatedDto<PartDto>> GetAllParts(PaginationDto pagination);
+    Task<PartDto?> GetPartById(int id);
+    Task CreatePart(CreatePartDto part);
+    Task<bool> UpdatePart(int id, UpdatePartDto part);
+    Task<bool> DeletePart(int id);
 }

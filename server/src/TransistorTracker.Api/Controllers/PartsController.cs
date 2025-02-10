@@ -2,7 +2,9 @@ using System.Collections;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TransistorTracker.Api.Controllers.Base;
+using TransistorTracker.Api.ViewModels.Pagination;
 using TransistorTracker.Api.ViewModels.Parts;
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Parts;
 using TransistorTracker.Server.Interfaces;
 
@@ -21,16 +23,16 @@ public class PartsController : TransistorTrackerBaseController
     }
     
     [HttpGet]
-    public ActionResult<IList<PartViewModel>> GetParts()
+    public async Task<ActionResult> GetParts([FromQuery] PaginationDto pagination)
     {
-        var parts = _service.GetAllParts();
-        return OkOrNoListContent((IList)_mapper.Map<IList<PartViewModel>>(parts));
+        var parts = await _service.GetAllParts(pagination);
+        return OkOrNoContent(_mapper.Map<PaginatedViewModel<PartViewModel>>(parts));
     }
     
     [HttpGet("{id}")]
-    public ActionResult<PartViewModel> GetPartById(int id)
+    public async Task<ActionResult> GetPartById(int id)
     {
-        var part = _service.GetPartById(id);
+        var part = await _service.GetPartById(id);
         return OkOrNoNotFound(_mapper.Map<PartViewModel>(part));
     }
 
@@ -39,7 +41,7 @@ public class PartsController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(part);
         if (badRequest != null) return badRequest;
-        _service.CreatePart(_mapper.Map<CreatePartDto>(part));
+        await _service.CreatePart(_mapper.Map<CreatePartDto>(part));
         return Created();
     }
 
@@ -48,15 +50,15 @@ public class PartsController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(part);
         if (badRequest != null) return badRequest;
-        var updated = _service.UpdatePart(id, _mapper.Map<UpdatePartDto>(part));
+        var updated = await _service.UpdatePart(id, _mapper.Map<UpdatePartDto>(part));
         if (updated) return Ok();
         return NotFound($"Part with id {id} not found");
     }
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteDevice(int id)
+    public async Task<ActionResult> DeleteDevice(int id)
     {
-        var deleted = _service.DeletePart(id);
+        var deleted = await _service.DeletePart(id);
         if (deleted) return NoContent();
         return NotFound($"Part with id {id} not found");
     }

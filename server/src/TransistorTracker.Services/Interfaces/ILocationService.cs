@@ -1,12 +1,13 @@
 using TransistorTracker.Server.DTOs.Locations;
+using TransistorTracker.Server.DTOs.Pagination;
 
 namespace TransistorTracker.Server.Interfaces;
 
 public interface ILocationService
 {
-    IList<LocationDto> GetAllLocations();
-    LocationDto? GetLocationById(int id);
-    void CreateLocation(CreateLocationDto location);
-    bool UpdateLocation(int id, UpdateLocationDto location);
-    bool DeleteLocation(int id);
+    Task<PaginatedDto<LocationDto>> GetAllLocations(PaginationDto paginationDto);
+    Task<LocationDto?> GetLocationById(int id);
+    Task CreateLocation(CreateLocationDto location);
+    Task<bool> UpdateLocation(int id, UpdateLocationDto location);
+    Task<bool> DeleteLocation(int id);
 }

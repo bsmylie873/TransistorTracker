@@ -3,7 +3,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TransistorTracker.Api.Controllers.Base;
 using TransistorTracker.Api.ViewModels.Devices;
+using TransistorTracker.Api.ViewModels.Pagination;
 using TransistorTracker.Server.DTOs.Devices;
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.Interfaces;
 
 namespace TransistorTracker.Api.Controllers;
@@ -21,16 +23,16 @@ public class DevicesController : TransistorTrackerBaseController
     }
     
     [HttpGet]
-    public ActionResult<IList<DeviceViewModel>> GetDevices()
+    public async Task<ActionResult> GetDevices([FromQuery] PaginationDto pagination)
     {
-        var devices = _service.GetAllDevices();
-        return OkOrNoListContent((IList)_mapper.Map<IList<DeviceViewModel>>(devices));
+        var devices = await _service.GetAllDevices(pagination);
+        return OkOrNoContent(_mapper.Map<PaginatedViewModel<DeviceViewModel>>(devices));
     }
     
     [HttpGet("{id}")]
-    public ActionResult<DeviceViewModel> GetDeviceById(int id)
+    public async Task<ActionResult<DeviceViewModel>> GetDeviceById(int id)
     {
-        var device = _service.GetDeviceById(id);
+        var device = await _service.GetDeviceById(id);
         return OkOrNoNotFound(_mapper.Map<DeviceViewModel>(device));
     }
 
@@ -39,7 +41,7 @@ public class DevicesController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(device);
         if (badRequest != null) return badRequest;
-        _service.CreateDevice(_mapper.Map<CreateDeviceDto>(device));
+        await _service.CreateDevice(_mapper.Map<CreateDeviceDto>(device));
         return Created();
     }
 
@@ -48,15 +50,15 @@ public class DevicesController : TransistorTrackerBaseController
     {
         var badRequest = await Validate(device);
         if (badRequest != null) return badRequest;
-        var updated = _service.UpdateDevice(id, _mapper.Map<UpdateDeviceDto>(device));
+        var updated = await _service.UpdateDevice(id, _mapper.Map<UpdateDeviceDto>(device));
         if (updated) return Ok();
         return NotFound($"Device with id {id} not found");
     }
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteDevice(int id)
+    public async Task<ActionResult> DeleteDevice(int id)
     {
-        var deleted = _service.DeleteDevice(id);
+        var deleted = await _service.DeleteDevice(id);
         if (deleted) return NoContent();
         return NotFound($"Device with id {id} not found");
     }

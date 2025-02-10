@@ -1,5 +1,7 @@
 using AutoMapper;
+using TransistorTracker.Api.ViewModels.Pagination;
 using TransistorTracker.Api.ViewModels.Reviews;
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Reviews;
 
 namespace TransistorTracker.Api.Profiles;
@@ -10,6 +12,7 @@ public class ReviewProfile : Profile
     {
         ConfigureDtoToViewModel();
         ConfigureCreateModelToDto();
+        ConfigurePaginateMapping();
     }
 
     private void ConfigureDtoToViewModel()
@@ -21,5 +24,10 @@ public class ReviewProfile : Profile
     {
         CreateMap<CreateReviewViewModel, CreateReviewDto>();
         CreateMap<UpdateReviewViewModel, UpdateReviewDto>();
+    }
+    
+    private void ConfigurePaginateMapping()
+    {
+        CreateMap<PaginatedDto<ReviewDto>, PaginatedViewModel<ReviewViewModel>>();
     }
 }

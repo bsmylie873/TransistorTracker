@@ -1,5 +1,7 @@
 using AutoMapper;
+using TransistorTracker.Api.ViewModels.Pagination;
 using TransistorTracker.Api.ViewModels.Software;
+using TransistorTracker.Server.DTOs.Pagination;
 using TransistorTracker.Server.DTOs.Software;
 
 namespace TransistorTracker.Api.Profiles;
@@ -10,6 +12,7 @@ public class SoftwareProfile : Profile
     {
         ConfigureDtoToViewModel();
         ConfigureCreateModelToDto();
+        ConfigurePaginateMapping();
     }
     
     private void ConfigureDtoToViewModel()
@@ -24,5 +27,11 @@ public class SoftwareProfile : Profile
         CreateMap<CreateSoftwareCompatibilityViewModel, CreateSoftwareCompatibilityDto>();
         CreateMap<UpdateSoftwareViewModel, UpdateSoftwareDto>();
         CreateMap<UpdateSoftwareCompatibilityViewModel, UpdateSoftwareCompatibilityDto>();
+    }
+    
+    private void ConfigurePaginateMapping()
+    {
+        CreateMap<PaginatedDto<SoftwareDto>, PaginatedViewModel<SoftwareViewModel>>();
+        CreateMap<PaginatedDto<SoftwareCompatibilityDto>, PaginatedViewModel<SoftwareCompatibilityViewModel>>();
     }
 }
