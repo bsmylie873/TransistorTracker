@@ -26,7 +26,13 @@ export default function Index() {
             <Text style={{ fontWeight: 'bold', fontSize: 24, color: textColor }}>
                 Transistor Tracker
             </Text>
-            <TouchableOpacity onPress={toggleTheme} style={{ marginTop: 20 }}>
+            <TouchableOpacity 
+                onPress={toggleTheme} 
+                style={{ marginTop: 20 }}
+                accessibilityRole="button"
+                accessibilityLabel={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+                accessibilityHint={`Changes app theme to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            >
                 <Icon
                     name={theme === 'light' ? 'moon-o' : 'sun-o'}
                     size={30}
