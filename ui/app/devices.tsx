@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, Image} from 'react-native';
+import {View, Text, FlatList, Image, Button} from 'react-native';
+import {Link, useNavigation} from '@react-navigation/native';
 import {useGetDevices} from '@/hooks/useGetDevices';
 import {Device} from '@/interfaces/devices';
 import {defaultSortingState, parseAccessorKey} from '@/utils/datagrid';
@@ -14,6 +15,7 @@ const Devices = () => {
     const [devices, setDevices] = useState<Device[]>([]);
     const [sorting, setSorting] = useState<SortingState>(defaultSortingState);
     const [search, setSearch] = useState<string | undefined>('');
+    const navigation = useNavigation();
 
     const {data, fetchNextPage, isFetching, isLoading, status, refetch, error} = useGetDevices({
         //@ts-expect-error TS doesnt think accessorKey is a valid prop
