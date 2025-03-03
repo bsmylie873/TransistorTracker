@@ -4,7 +4,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: '#fff',
     },
     title: {
         fontSize: 24,
@@ -14,7 +13,6 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
         paddingBottom: 8,
         marginBottom: 8,
     },
@@ -26,7 +24,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 8,
         borderBottomWidth: 1,
-        borderBottomColor: '#eee',
     },
     cell: {
         flex: 1,
