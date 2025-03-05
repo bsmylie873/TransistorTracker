@@ -1,23 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, Image} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {View, Text, FlatList, Image, TextInput} from 'react-native';
 import {useGetDevices} from '@/hooks/useGetDevices';
 import {Device} from '@/interfaces/devices';
 import {defaultSortingState, parseAccessorKey} from '@/utils/datagrid';
 import {devicesColumnDefs} from '@/constants/ColumnDefs';
 import {SortingState} from '@tanstack/react-table';
 import styles from '@/constants/DatagridStyles';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {QueryClientContext} from '@tanstack/react-query';
 import {useThemeColor} from '@/hooks/useThemeColor';
 import {Colors} from '@/constants/Colors';
 
-const queryClient = new QueryClient();
 
 const Devices = () => {
+    const queryClient = useContext(QueryClientContext);
     const [devices, setDevices] = useState<Device[]>([]);
     const [sorting, setSorting] = useState<SortingState>(defaultSortingState);
-    const [search, setSearch] = useState<string | undefined>('');
 
-    // Use theme colors
     const backgroundColor = useThemeColor({
         light: Colors.light.background,
         dark: Colors.dark.background
@@ -35,7 +33,6 @@ const Devices = () => {
         //@ts-expect-error TS doesnt think accessorKey is a valid prop
         sortBy: parseAccessorKey(devicesColumnDefs.find((columnDef) => columnDef.id === sorting[0]?.id)?.accessorKey),
         sortDirection: sorting[0]?.desc ? 'desc' : 'asc',
-        search: search?.trim()?.toLowerCase() || ''
     });
 
     useEffect(() => {
@@ -53,16 +50,28 @@ const Devices = () => {
     }
 
     return (
-        <QueryClientProvider client={queryClient}>
+        <QueryClientContext.Provider value={queryClient}>
             <View style={[styles.container, {backgroundColor}]}>
                 <Text style={[styles.title, {color: textColor}]}>Devices</Text>
                 <FlatList
                     data={devices}
                     keyExtractor={(item) => item.id}
+                    onEndReached={() => fetchNextPage()}
+                    onEndReachedThreshold={0.5}
+                    ListFooterComponent={() => isFetching ? <Text>Loading more...</Text> : null}
+                    ListEmptyComponent={() => !isLoading && (
+                        <Text style={styles.title}>No devices found</Text>
+                    )}
                     renderItem={({item}) => (
                         <View style={[styles.row, {borderBottomColor: borderColor}]}>
                             <Text style={[styles.cell, {color: textColor}]}>{item.name}</Text>
-                            {item.avatar && <Image source={{uri: item.avatar}} style={styles.cell}/>}
+                            <View style={styles.cell}>
+                                {item.avatar ? (
+                                    <Image source={{uri: item.avatar}}
+                                           style={{width: 40, height: 40, borderRadius: 20}}/>
+                                ) : (<View style={{width: 40, height: 40}}/>
+                                )}
+                            </View>
                             <Text style={[styles.cell, {color: textColor}]}>{item.model}</Text>
                             <Text style={[styles.cell, {color: textColor}]}>{item.wattage}</Text>
                             <Text style={[styles.cell, {color: textColor}]}>{item.colour}</Text>
@@ -83,7 +92,7 @@ const Devices = () => {
                     )}
                 />
             </View>
-        </QueryClientProvider>
+        </QueryClientContext.Provider>
     );
 };
 

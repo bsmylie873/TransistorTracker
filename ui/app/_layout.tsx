@@ -3,7 +3,7 @@ import { Stack } from 'expo-router';
 import { ThemeProvider } from '@/context/ThemeContext';
 import Header from '@/components/Header';
 import { ROUTES } from '@/constants/Routes';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {QueryClient, QueryClientContext, QueryClientProvider} from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
@@ -16,7 +16,7 @@ export default function RootLayout() {
     }, []);
 
     return (
-        <QueryClientProvider client={queryClient}>
+        <QueryClientContext.Provider value={queryClient}>
             <ThemeProvider>
                 <Header />
                 <Stack
@@ -29,6 +29,6 @@ export default function RootLayout() {
                     <Stack.Screen name={ROUTES.DEVICES} />
                 </Stack>
             </ThemeProvider>
-        </QueryClientProvider>
+        </QueryClientContext.Provider>
     );
 }
