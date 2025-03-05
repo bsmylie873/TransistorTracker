@@ -8,10 +8,8 @@ import {SortingState} from '@tanstack/react-table';
 import styles from '@/constants/DatagridStyles';
 import {useThemeColor} from '@/hooks/useThemeColor';
 import {Colors} from '@/constants/Colors';
-import {QueryClientContext} from '@/context/QueryClientContext';
 
 const Parts = () => {
-    const queryClient = useContext(QueryClientContext);
     const [parts, setParts] = useState<Part[]>([]);
     const [sorting, setSorting] = useState<SortingState>(defaultSortingState);
 
