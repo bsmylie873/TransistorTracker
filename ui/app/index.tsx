@@ -7,6 +7,7 @@ import { Link } from 'expo-router';
 import { ROUTES } from '@/constants/Routes';
 import { LinkHrefType } from '@/constants/Types';
 import { Octicons } from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
 
 export default function Index() {
     const backgroundColor = useThemeColor({ light: Colors.light.background, dark: Colors.dark.background }, 'background');
