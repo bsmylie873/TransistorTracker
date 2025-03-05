@@ -1,4 +1,5 @@
 import {Device} from '@/interfaces/devices';
+import {Part} from '@/interfaces/parts';
 import {DEVICES_COLUMN_DEFINITION_IDS} from '@/constants/ColumnDefinitionIds/Devices';
 import {ColumnDef} from '@tanstack/react-table';
 
@@ -75,6 +76,70 @@ const devicesColumnDefs: ColumnDef<Device>[] = [
     },
 ];
 
+const partsColumnDefs: ColumnDef<Part>[] = [
+    {
+        id: 'name',
+        accessorKey: 'name',
+        size: 500,
+        meta: {
+            style: 'justify-center'
+        },
+        header: () => <span className='flex text-nowrap text-left'>Name</span>,
+        enableGlobalFilter: true
+    },
+    {
+        id: 'avatar',
+        accessorKey: 'avatar',
+        size: 100,
+        meta: {
+            style: 'justify-center'
+        },
+        header: () => <span className='flex text-nowrap text-left'>Avatar</span>,
+        enableGlobalFilter: true
+    },
+    {
+        id: 'description',
+        accessorKey: 'description',
+        size: 200,
+        meta: {
+            style: 'justify-center'
+        },
+        header: () => <span className='flex text-nowrap text-left'>Description</span>,
+        enableGlobalFilter: true
+    },
+    {
+        id: 'wattage',
+        accessorKey: 'wattage',
+        size: 100,
+        meta: {
+            style: 'justify-center'
+        },
+        header: () => <span className='flex text-nowrap text-left'>Wattage</span>,
+        enableGlobalFilter: true
+    },
+    {
+        id: 'colour',
+        accessorKey: 'colour',
+        size: 100,
+        meta: {
+            style: 'justify-center'
+        },
+        header: () => <span className='flex text-nowrap text-left'>Colour</span>,
+        enableGlobalFilter: true
+    },
+    {
+        id: 'releaseDate',
+        accessorKey: 'releaseDate',
+        size: 150,
+        meta: {
+            style: 'justify-center'
+        },
+        header: () => <span className='flex text-nowrap text-left'>Release Date</span>,
+        enableGlobalFilter: true
+    },
+];
+
 export {
     devicesColumnDefs,
+    partsColumnDefs
 };
