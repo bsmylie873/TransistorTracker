@@ -50,49 +50,47 @@ const Devices = () => {
     }
 
     return (
-        <QueryClientContext.Provider value={queryClient}>
-            <View style={[styles.container, {backgroundColor}]}>
-                <Text style={[styles.title, {color: textColor}]}>Devices</Text>
-                <FlatList
-                    data={devices}
-                    keyExtractor={(item) => item.id}
-                    onEndReached={() => fetchNextPage()}
-                    onEndReachedThreshold={0.5}
-                    ListFooterComponent={() => isFetching ? <Text>Loading more...</Text> : null}
-                    ListEmptyComponent={() => !isLoading && (
-                        <Text style={styles.title}>No devices found</Text>
-                    )}
-                    renderItem={({item}) => (
-                        <View style={[styles.row, {borderBottomColor: borderColor}]}>
-                            <Text style={[styles.cell, {color: textColor}]}>{item.name}</Text>
-                            <View style={styles.cell}>
-                                {item.avatar ? (
-                                    <Image source={{uri: item.avatar}}
-                                           style={{width: 40, height: 40, borderRadius: 20}}/>
-                                ) : (<View style={{width: 40, height: 40}}/>
-                                )}
-                            </View>
-                            <Text style={[styles.cell, {color: textColor}]}>{item.model}</Text>
-                            <Text style={[styles.cell, {color: textColor}]}>{item.wattage}</Text>
-                            <Text style={[styles.cell, {color: textColor}]}>{item.colour}</Text>
-                            <Text style={[styles.cell, {color: textColor}]}>{item.wireless ? 'Yes' : 'No'}</Text>
-                            <Text style={[styles.cell, {color: textColor}]}>{item.releaseDate?.toString()}</Text>
+        <View style={[styles.container, {backgroundColor}]}>
+            <Text style={[styles.title, {color: textColor}]}>Devices</Text>
+            <FlatList
+                data={devices}
+                keyExtractor={(item) => item.id}
+                onEndReached={() => fetchNextPage()}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={() => isFetching ? <Text>Loading more...</Text> : null}
+                ListEmptyComponent={() => !isLoading && (
+                    <Text style={styles.title}>No devices found</Text>
+                )}
+                renderItem={({item}) => (
+                    <View style={[styles.row, {borderBottomColor: borderColor}]}>
+                        <Text style={[styles.cell, {color: textColor}]}>{item.name}</Text>
+                        <View style={styles.cell}>
+                            {item.avatar ? (
+                                <Image source={{uri: item.avatar}}
+                                       style={{width: 40, height: 40, borderRadius: 20}}/>
+                            ) : (<View style={{width: 40, height: 40}}/>
+                            )}
                         </View>
-                    )}
-                    ListHeaderComponent={() => (
-                        <View style={[styles.header, {borderBottomColor: borderColor}]}>
-                            <Text style={[styles.headerCell, {color: textColor}]}>Name</Text>
-                            <Text style={[styles.headerCell, {color: textColor}]}>Avatar</Text>
-                            <Text style={[styles.headerCell, {color: textColor}]}>Model</Text>
-                            <Text style={[styles.headerCell, {color: textColor}]}>Wattage</Text>
-                            <Text style={[styles.headerCell, {color: textColor}]}>Colour</Text>
-                            <Text style={[styles.headerCell, {color: textColor}]}>Wireless</Text>
-                            <Text style={[styles.headerCell, {color: textColor}]}>Release Date</Text>
-                        </View>
-                    )}
-                />
-            </View>
-        </QueryClientContext.Provider>
+                        <Text style={[styles.cell, {color: textColor}]}>{item.model}</Text>
+                        <Text style={[styles.cell, {color: textColor}]}>{item.wattage}</Text>
+                        <Text style={[styles.cell, {color: textColor}]}>{item.colour}</Text>
+                        <Text style={[styles.cell, {color: textColor}]}>{item.wireless ? 'Yes' : 'No'}</Text>
+                        <Text style={[styles.cell, {color: textColor}]}>{item.releaseDate?.toString()}</Text>
+                    </View>
+                )}
+                ListHeaderComponent={() => (
+                    <View style={[styles.header, {borderBottomColor: borderColor}]}>
+                        <Text style={[styles.headerCell, {color: textColor}]}>Name</Text>
+                        <Text style={[styles.headerCell, {color: textColor}]}>Avatar</Text>
+                        <Text style={[styles.headerCell, {color: textColor}]}>Model</Text>
+                        <Text style={[styles.headerCell, {color: textColor}]}>Wattage</Text>
+                        <Text style={[styles.headerCell, {color: textColor}]}>Colour</Text>
+                        <Text style={[styles.headerCell, {color: textColor}]}>Wireless</Text>
+                        <Text style={[styles.headerCell, {color: textColor}]}>Release Date</Text>
+                    </View>
+                )}
+            />
+        </View>
     );
 };
 
